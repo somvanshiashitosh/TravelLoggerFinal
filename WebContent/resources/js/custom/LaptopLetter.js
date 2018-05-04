@@ -36,8 +36,18 @@ validateDropDown = function(){
 	}
 }
 
+dummy = function(){
+	if(document.getElementById(arguments[0]).value == ""){
+		flag["form:"+arguments[1]] = false;
+		return false;
+	}else{
+		flag["form:"+arguments[1]] = true;
+		return true;
+	}
+}
+
 validateTravelDate = function(){
-	if(validate(arguments[0], arguments[1], arguments[2])){		
+	if(dummy(arguments[0], arguments[1], arguments[2])){		
 		var initiationDate = (document.getElementById("form:travelStartDate_input").value);
 		initiationDate = initiationDate.split("/").reverse().join("-");	
 		var confirmationDate = (document.getElementById("form:travelEndDate_input").value);

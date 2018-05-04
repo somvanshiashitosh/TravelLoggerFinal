@@ -15,8 +15,8 @@
 		<property name="hibernate.current_session_context_class">thread</property>
         <!-- Database connection settings -->
         <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
-        <property name="hibernate.connection.password">Ashutosh@1215</property>
-        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/travellog</property>
+        <property name="hibernate.connection.password">vishal@123</property>
+        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/travellogger</property>
         <property name="hibernate.connection.username">root</property>
         <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
        
