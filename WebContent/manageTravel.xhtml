@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<script type="text/javascript">
+		history.pushState(null, null, location.href);
+		window.onpopstate = function() {
+			history.go(1);
+		};
+	</script>
+	<title>Manage TravelLog</title>
+
+	<meta name="viewport"
+		content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+	<meta http-equiv="x-ua-compatible" content="ie=edge" />
+
+	<!-- Bootstrap CSS -->
+	<h:outputStylesheet name="css/bootstrap/bootstrap.min.css" />
+	<h:outputStylesheet name="css/custom/resourcetracker.css" />
+	<h:outputStylesheet name="css/custom/travelLogger.css" />
+	<h:outputStylesheet name="fonts/css/font-awesome.min.css" />
+	<h:outputStylesheet name="css/custom/form.css" />
+
+	<!-- jQuery first, then Tether, then Bootstrap JS. -->
+	<h:outputScript name="tether-1.3.3/dist/js/tether.min.js" />
+	<h:outputScript name="js/bootstrap/bootstrap.min.js" />
+
+	<script src="resources/js/custom/AccordionData.js"></script>
+
+	<style>
+	.ui-widget-content {
+		background-color: white;
+	}
+	
+	.ui-widget-header {
+		background: #424242;
+		color: white;
+		font-size: 14px;
+	}
+	
+	.ui-dialog-content {
+		background: white !important;
+		padding: 0, 0, 0, 0 !important;
+		font-size: 14px;
+	}
+	
+	.input-text {
+		width: 600px;
+		height: 25px;
+	}
+	
+	.input-editor {
+		width: 665px;
+	}
+</style>
+
+</h:head>
+
+<h:body>
+
+
+	<ui:include src="/WEB-INF/header.xhtml" />
+	<ui:include src="/WEB-INF/footer.xhtml" />
+	<h:panelGroup layout="block" styleClass="container-fluid">
+		<h:panelGroup layout="block" styleClass="row">
+			<ui:include src="/WEB-INF/sidebar.xhtml" />
+			<h:panelGroup layout="block"
+				class="col-xs-10 col-sm-9 offset-md-2 col-md-10 main">
+				<h4>Manage TravelLog</h4>
+				<h:panelGroup layout="block" class="row">
+					<h:panelGroup layout="block" class="col-md-12">
+
+						<h:form id="form" style="margin-bottom:100px;">
+							<p:messages globalOnly="true"></p:messages>
+							<h:inputHidden id="EA" value="#{DashBoard.hiddenID}"></h:inputHidden>
+
+							<p:accordionPanel id="panel" value="#{DashBoard.travels}"
+								dynamic="true" cache="false" styleClass="spacing" var="travel"
+								activeIndex="-">
+
+
+								<p:tab id="title"
+									title="&lt;div style='width:33%;float:left;' &gt;Traveller - #{travel.travellerName} &lt;/div&gt;  &lt;div style='width:33%;overflow:hidden;float:left' &gt;Travel Start Date - #{DashBoard.formateDate(travel.travelStartDate)} &lt;/div&gt;  &lt;span style='width:33%;' &gt;Travel End Date - #{DashBoard.formateDate(travel.travelEndDate)}&lt;/span&gt;"
+									escape="false">
+
+									<h:inputHidden id="id" value="#{travel.id}" />
+									<h:panelGrid columns="4" cellpadding="5">
+
+
+										<h:outputText value="Customer Name:" style="font-weight:bold"></h:outputText>
+										<h:outputText value="#{travel.customerName}"></h:outputText>
+
+										<h:outputText value="Project Name:" style="font-weight:bold"></h:outputText>
+										<h:outputText value="#{travel.projectName}"></h:outputText>
+
+										<h:outputText value="Project Code:" style="font-weight:bold"></h:outputText>
+										<h:outputText value="#{travel.projectCode}"></h:outputText>
+
+										<h:outputText value="Travel Destination:"
+											style="font-weight:bold"></h:outputText>
+										<h:outputText value="#{travel.travelDestination}"></h:outputText>
+
+
+
+										<h:outputText value="Project Level Approval Status: "
+											style="font-weight:bold"></h:outputText>
+										<h:commandLink id="PL-link" value="#{travel.projectLevel}"
+											disabled="#{travel.projectLevel=='to be prepared'?false:true}">
+											<f:ajax event="click" onevent="getIdPlLink(this.id)"
+												listener="#{DashBoard.populateProjectApprovalDailog}"
+												render="@form" execute="@form"></f:ajax>
+										</h:commandLink>
+
+										<h:outputText value="Location Head Approval Status: "
+											style="font-weight:bold"></h:outputText>
+										<h:commandLink id="LA-link" value="#{travel.locationHead}"
+											disabled="#{travel.locationHead=='to be prepared'?false:true}">
+											<f:ajax event="click" onevent="getIdLaLink(this.id)"
+												listener="#{DashBoard.populateLocationApprovalDailog}"
+												render="@form" execute="@form"></f:ajax>
+										</h:commandLink>
+
+										<h:outputText value="Ps Leader Approval Status: "
+											style="font-weight:bold"></h:outputText>
+										<h:commandLink id="PS-link" value="#{travel.psHead}"
+											disabled="#{travel.psHead=='to be prepared'?false:true}">
+											<f:ajax event="click" onevent="getIdPsLink(this.id)"
+												listener="#{DashBoard.populatePsApprovalDailog}"
+												render="@form" execute="@form"></f:ajax>
+										</h:commandLink>
+
+										<h:outputText value="Designation:" style="font-weight:bold"></h:outputText>
+										<h:outputText value="#{travel.designation}"></h:outputText>
+
+										<h:outputText value="Visa Status:" style="font-weight:bold"></h:outputText>
+										<h:commandLink id="visaStatus" value="#{travel.visaStatus}"
+											disabled="#{travel.visaStatus=='Visa Needs To Be Applied'?false:true}">
+											<f:ajax event="click" onevent="getIdForAgengyMail(this.id)"
+												listener="#{DashBoard.populateAgengyDailog}" render="@form"
+												execute="@form"></f:ajax>
+										</h:commandLink>
+
+
+										<h:outputText value="Cost Covered By:"
+											style="font-weight:bold"></h:outputText>
+										<h:outputText value="#{travel.costCovered}"></h:outputText>
+
+										<h:outputText value="Designation:" style="font-weight:bold"></h:outputText>
+										<h:outputText value="#{travel.scopeWork}"></h:outputText>
+									</h:panelGrid>
+								</p:tab>
+							</p:accordionPanel>
+
+
+							<p:dialog id="dlgEA" width="900px" header="Engagement Approval" widgetVar="dlg">
+
+								<h:panelGrid id="dlgGrid" columns="3" cellpadding="5">
+									<h:outputLabel for="EAto" value="To:"></h:outputLabel>
+									<h:inputText onblur="emailFieldValidation(this.id)" id="EAto"
+										value="#{DashBoard.engagementAgreementEmail}"
+										styleClass="form-control noShdow input-text" />
+									<p:message for="EAto" id="EAto-msg"></p:message>
+
+									<h:outputLabel for="EAcc" value="CC:"></h:outputLabel>
+									<h:inputText value="#{DashBoard.EACC}"
+										onblur="emailFieldValidation(this.id)" id="EAcc"
+										styleClass="input-text form-control noShdow" />
+									<p:message for="EAcc" id="EAcc-msg"></p:message>
+
+									<h:outputLabel for="EAbcc" value="BCC:"></h:outputLabel>
+									<h:inputText value="#{DashBoard.EABCC}"
+										onblur="emailFieldValidation(this.id)" id="EAbcc"
+										styleClass="input-text form-control noShdow" />
+									<p:message for="EAbcc" id="EAbcc-msg"></p:message>
+
+									<h:outputLabel for="EAsubject" value="Subject:"></h:outputLabel>
+									<h:inputText value="#{DashBoard.EASubject}"
+										onblur="subjectFieldValidation(this.id)" id="EAsubject"
+										styleClass="input-text form-control noShdow" />
+									<p:message for="EAsubject" id="EAsubject-msg"></p:message>
+
+								</h:panelGrid>
+
+								<p:editor value="#{DashBoard.EABody}" id="editor" height="200"
+									styleClass="input-editor"></p:editor>
+								<br></br>
+
+								<h:commandButton onclick="return validateOnClick()"
+									type="button" styleClass="btn btn-success" value="Send Email">
+									<f:ajax event="click"
+										listener="#{DashBoard.sendEaApprovalMail}" execute="@form"
+										render="@form" />
+								</h:commandButton>
+
+							</p:dialog>
+
+							<p:dialog width="900px" id="dlgPL" header="Project Level Approval"
+								widgetVar="dlg2">
+
+								<h:panelGrid id="dlg2Grid" columns="3" cellpadding="5">
+									<h:outputLabel for="PLto" value="To:"></h:outputLabel>
+									<h:inputText onblur="emailFieldValidation(this.id)" id="PLto"
+										value="#{DashBoard.projectLevelEmail}"
+										styleClass="form-control noShdow input-text" />
+									<p:message for="PLto" id="PLto-msg"></p:message>
+
+									<h:outputLabel for="PLcc" value="CC:"></h:outputLabel>
+									<h:inputText onblur="emailFieldValidation(this.id)" id="PLcc"
+										value="#{DashBoard.PLCC}"
+										styleClass="input-text form-control noShdow" />
+									<p:message for="PLcc" id="PLcc-msg"></p:message>
+
+									<h:outputLabel for="PLbcc" value="BCC:"></h:outputLabel>
+									<h:inputText onblur="emailFieldValidation(this.id)" id="PLbcc"
+										value="#{DashBoard.PLBCC}"
+										styleClass="input-text form-control noShdow" />
+									<p:message for="PLbcc" id="PLbcc-msg"></p:message>
+
+									<h:outputLabel for="PLsubject" value="Subject:"></h:outputLabel>
+									<h:inputText onblur="subjectFieldValidation(this.id)"
+										id="PLsubject" value="#{DashBoard.plSubject}"
+										styleClass="input-text form-control noShdow" />
+									<p:message for="PLsubject" id="PLsubject-msg"></p:message>
+
+								</h:panelGrid>
+
+								<p:editor value="#{DashBoard.plBody}" id="editor2" height="200"
+									styleClass="input-editor"></p:editor>
+								<br></br>
+
+								<h:commandButton onclick="return validateOnClick()"
+									type="button" styleClass="btn btn-success" value="Send Email">
+									<f:ajax event="click"
+										listener="#{DashBoard.sendProjectApprovalEmail}"
+										execute="@form" render="@form" />
+								</h:commandButton>
+
+
+							</p:dialog>
+
+							<p:dialog width="900px" id="dlgLA" header="Location Head Approval"
+								widgetVar="dlg3">
+
+								<h:panelGrid id="dlg3Grid" columns="3" cellpadding="5">
+									<h:outputLabel for="LAto" value="To:"></h:outputLabel>
+									<h:inputText onblur="emailFieldValidation(this.id)" id="LAto"
+										value="#{DashBoard.locationHeadEmail}"
+										styleClass="form-control noShdow input-text" />
+									<p:message for="LAto" id="LAto-msg"></p:message>
+
+									<h:outputLabel for="LAcc" value="CC:"></h:outputLabel>
+									<h:inputText onblur="emailFieldValidation(this.id)" id="LAcc"
+										value="#{DashBoard.LHCC}"
+										styleClass="input-text form-control noShdow" />
+									<p:message for="LAcc" id="LAcc-msg"></p:message>
+
+									<h:outputLabel for="LAbcc" value="BCC:"></h:outputLabel>
+									<h:inputText onblur="emailFieldValidation(this.id)" id="LAbcc"
+										value="#{DashBoard.LHBCC}"
+										styleClass="input-text form-control noShdow" />
+									<p:message for="LAbcc" id="LAbcc-msg"></p:message>
+
+									<h:outputLabel for="LAsubject" value="Subject:"></h:outputLabel>
+									<h:inputText onblur="subjectFieldValidation(this.id)"
+										id="LAsubject" value="#{DashBoard.lhSubject}"
+										styleClass="input-text form-control noShdow" />
+									<p:message for="LAsubject" id="LAsubject-msg"></p:message>
+
+								</h:panelGrid>
+
+								<p:editor value="#{DashBoard.lhBody}" id="editor3" height="200"
+									styleClass="input-editor"></p:editor>
+								<br></br>
+								<h:commandButton onclick="return validateOnClick()"
+									type="button" styleClass="btn btn-success" value="Send Email">
+									<f:ajax event="click"
+										listener="#{DashBoard.sendLocationApprovalEmail}"
+										execute="@form" render="@form" />
+								</h:commandButton>
+
+
+							</p:dialog>
+
+							<p:dialog width="900px" id="dlgPs" header="Ps Head Approval" widgetVar="dlg4">
+
+								<h:panelGrid id="dlg4Grid" columns="3" cellpadding="5">
+
+									<h:outputLabel for="Psto" value="To:"></h:outputLabel>
+									<h:inputText onblur="emailFieldValidation(this.id)" id="Psto"
+										value="#{DashBoard.psHeadEmail}"
+										styleClass="form-control noShdow input-text" />
+									<p:message for="Psto" id="Psto-msg"></p:message>
+
+									<h:outputLabel for="Pscc" value="CC:"></h:outputLabel>
+									<h:inputText onblur="emailFieldValidation(this.id)" id="Pscc"
+										value="#{DashBoard.PSCC}"
+										styleClass="input-text form-control noShdow" />
+									<p:message for="Pscc" id="Pscc-msg"></p:message>
+
+									<h:outputLabel for="Psbcc" value="BCC:"></h:outputLabel>
+									<h:inputText onblur="emailFieldValidation(this.id)" id="Psbcc"
+										value="#{DashBoard.PSBCC}"
+										styleClass="input-text form-control noShdow" />
+									<p:message for="Psbcc" id="Psbcc-msg"></p:message>
+
+									<h:outputLabel for="Pssubject" value="Subject:"></h:outputLabel>
+									<h:inputText onblur="subjectFieldValidation(this.id)"
+										id="Pssubject" value="#{DashBoard.psSubject}"
+										styleClass="input-text form-control noShdow" />
+									<p:message for="Pssubject" id="Pssubject-msg"></p:message>
+
+								</h:panelGrid>
+
+								<p:editor onblur="subjectFieldValidation(this.id)" id="editor4"
+									widgetVar="E4" value="#{DashBoard.psBody}" height="200"
+									styleClass="input-editor"></p:editor>
+								<p:message for="editor4" id="editor4-msg"></p:message>
+								<br></br>
+
+								<h:commandButton onclick="return validateOnClick()"
+									type="button" styleClass="btn btn-success" value="Send Email">
+									<f:ajax event="click"
+										listener="#{DashBoard.sendPsApprovalEmail}" execute="@form"
+										render="@form" />
+								</h:commandButton>
+
+							</p:dialog>
+
+							<p:dialog width="500px" header="Send Mail"
+								widgetVar="sendMailDailog">
+								<h:panelGrid columns="3" cellpadding="5">
+									<h:outputLabel for="select-agency" value="Select Agency:*"></h:outputLabel>
+									<h:selectOneMenu onblur="validateAgencyEmail()"
+										id="select-agency" value="#{DashBoard.agency}"
+										styleClass="form-control">
+										<f:selectItem itemLabel="Select Agency" itemValue=""
+											noSelectionOption="true" />
+										<f:selectItems value="#{DashBoard.agencyList}" />
+									</h:selectOneMenu>
+									<p:messages id="sendMailMsg"></p:messages>
+
+									<h:commandButton onclick="return getMailFlag()" type="button"
+										styleClass="btn btn-success" value="Send Email">
+										<f:ajax listener="#{DashBoard.sendAgencyMail}" event="click"
+											execute="@form" render="@form" />
+									</h:commandButton>
+
+									<h:commandButton onclick="PF('sendMailDailog').hide();"
+										type="button" styleClass="btn btn-error" value="Cancel" />
+								</h:panelGrid>
+
+							</p:dialog>
+						</h:form>
+					</h:panelGroup>
+				</h:panelGroup>
+			</h:panelGroup>
+		</h:panelGroup>
+	</h:panelGroup>
+</h:body>
+</html>

@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<script type="text/javascript">
+		history.pushState(null, null, location.href);
+		window.onpopstate = function() {
+			history.go(1);
+		};
+	</script>
+	<title>Add New Project</title>
+	<meta name="viewport"
+		content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+	<meta http-equiv="x-ua-compatible" content="ie=edge" />
+
+	<h:outputStylesheet name="css/bootstrap/bootstrap.min.css" />
+	<h:outputStylesheet name="css/custom/resourcetracker.css" />
+	<h:outputStylesheet name="css/custom/travelLogger.css" />
+	<h:outputStylesheet name="fonts/css/font-awesome.min.css" />
+
+	<h:outputScript name="tether-1.3.3/dist/js/tether.min.js" />
+	<h:outputScript name="js/bootstrap/bootstrap.min.js" />
+	<h:outputScript name="js/custom/addProjectValidation.js" />
+</h:head>
+<h:body>
+	<ui:include src="/WEB-INF/header.xhtml" />
+	<ui:include src="/WEB-INF/footer.xhtml" />
+	<ui:include src="/WEB-INF/sidebar.xhtml" />
+	<h:panelGroup layout="block" styleClass="container-fluid">
+		<h:panelGroup layout="block" styleClass="row">
+			<h:panelGroup layout="block" styleClass="offset-xs-2 col-xs-10 main">
+				<h4>
+					<h:outputText value="New Project" />
+				</h4>
+				<h:panelGroup styleClass="row form-group">
+					<h:panelGroup styleClass="col-xs-10">
+						<h:panelGroup styleClass="card card-block">
+							<h:form id="form">
+								<p:messages id="growl" showDetail="true" sticky="false"
+									closeable="true" escape="false" severity="info, fatal" />
+								<h:panelGrid columns="3" cellpadding="5">
+
+									<h:outputLabel for="example-text-input">Project Code*</h:outputLabel>
+									<h:inputText
+										onblur="validateAlphanumeric(this.id, 'project-id-msg', 'Please Enter Code')"
+										styleClass="form-control noShdow" id="example-text-input"
+										value="#{projectBean.project.projectCode}" required="true"
+										requiredMessage="Please Enter Project ID" />
+									<p:message id="project-id-msg" for="example-text-input"
+										display="text" />
+
+									<h:outputLabel for="projectName">Project Name*</h:outputLabel>
+									<h:inputText
+										onblur="validateString(this.id, 'project-name-msg', 'Please Enter Name')"
+										styleClass="form-control noShdow" id="projectName"
+										value="#{projectBean.project.projectName}" required="true"
+										requiredMessage="Please Enter Project Name" />
+									<p:message id="project-name-msg" for="projectName"
+										display="text" />
+
+									<h:outputLabel for="project-country" value="Project Country:*"></h:outputLabel>
+									<h:selectOneMenu
+										onblur="validateDropDown(this.id, 'project-country-msg', 'Select Project country')"
+										id="project-country"
+										value="#{projectBean.project.projectCountry}"
+										styleClass="form-control" required="true"
+										requiredMessage="Please select country">
+										<f:selectItem itemLabel="Select Country" itemValue=""
+											noSelectionOption="true" />
+										<f:selectItems value="#{projectBean.countryList}" />
+									</h:selectOneMenu>
+									<p:message id="project-country-msg" for="project-country"
+										display="text" />
+
+									<h:outputLabel id="manager" value="Manager Details:-"
+										style="font-weight:bold" />
+									<p:message for="Project-head" />
+									<p:message for="Project-head" />
+
+									<h:outputLabel for="managerName" value="Name*" />
+									<h:inputText value="#{projectBean.project.managerName}"
+										id="managerName"
+										onblur="validateString(this.id, 'managerName-msg', 'Please Enter Name')"
+										styleClass="form-control noShdow" required="true"
+										requiredMessage="Please Enter Name" />
+									<p:message for="managerName" id="managerName-msg" />
+
+									<h:outputLabel for="managerContact" value="Contact No*" />
+									<h:inputText value="#{projectBean.project.managerContact}"
+										id="managerContact"
+										onblur="validateNumber(this.id, 'managerContact-msg','Please Enter Contact Number')"
+										styleClass="form-control noShdow" required="true"
+										requiredMessage="Please Enter Contact No" />
+									<p:message for="managerContact" id="managerContact-msg" />
+
+									<h:outputLabel for="managerEmail" value="Email*" />
+									<h:inputText value="#{projectBean.project.managerEmail}"
+										id="managerEmail"
+										onblur="validateEmail(this.id, 'managerEmail-msg', 'Please Enter Email')"
+										styleClass="form-control noShdow" required="true"
+										requiredMessage="Please Enter Email" />
+									<p:message for="managerEmail" id="managerEmail-msg" />
+
+
+									<h:outputLabel id="Project-head" value="Project Head Details:-"
+										style="font-weight:bold" />
+									<p:message for="Project-head" />
+									<p:message for="Project-head" />
+
+									<h:outputLabel for="project-head-name" value="Name*" />
+									<h:inputText
+										onblur="validateString(this.id, 'project-head-name-msg', 'Please Enter Name')"
+										styleClass="form-control noShdow" id="project-head-name"
+										value="#{projectBean.project.projectHead}" required="true"
+										requiredMessage="Please Enter Name" />
+									<p:message id="project-head-name-msg" for="project-head-name"
+										display="text" />
+
+									<h:outputLabel for="project-head-contact" value="Contact No*"></h:outputLabel>
+									<h:inputText
+										onblur="validateNumber(this.id, 'project-head-contact-msg','Please Enter Contact Number')"
+										styleClass="form-control noShdow" id="project-head-contact"
+										value="#{projectBean.project.PHContact}" required="true"
+										requiredMessage="Please Enter Contact No" />
+									<p:message id="project-head-contact-msg"
+										for="project-head-contact" display="text" />
+
+									<h:outputLabel for="project-head-email" value="Email Id*"></h:outputLabel>
+									<h:inputText
+										onblur="validateEmail(this.id, 'project-head-email-msg', 'Please Enter Email')"
+										styleClass="form-control noShdow" id="project-head-email"
+										value="#{projectBean.project.PHEmail}" required="true"
+										requiredMessage="Please Enter Email" />
+									<p:message id="project-head-email-msg" for="project-head-email"
+										display="text" />
+
+									<h:outputLabel for="project-head-cc" value="CC" />
+									<h:inputText value="#{projectBean.project.PHCC}"
+										onblur="validateCC(this.id, 'project-head-cc-msg', 'Invalid Email')"
+										styleClass="form-control noShdow" id="project-head-cc" />
+									<p:message id="project-head-cc-msg" for="project-head-cc"
+										display="text" />
+
+
+									<h:outputLabel id="Location-head"
+										value="Location Head Details:-" style="font-weight:bold"></h:outputLabel>
+									<p:message for="Location-head" />
+									<p:message for="Location-head" />
+
+									<h:outputLabel for="location-head-name" value="Name*"></h:outputLabel>
+									<h:inputText
+										onblur="validateString(this.id, 'location-head-name-msg', 'Please Enter Name')"
+										styleClass="form-control noShdow" id="location-head-name"
+										value="#{projectBean.project.locationHead}" required="true"
+										requiredMessage="Please Enter Name" />
+									<p:message id="location-head-name-msg" for="location-head-name"
+										display="text" />
+
+									<h:outputLabel for="location-head-contact">Contact No*</h:outputLabel>
+									<h:inputText
+										onblur="validateNumber(this.id, 'location-head-contact-msg', 'Please Enter Contact Number')"
+										styleClass="form-control noShdow" id="location-head-contact"
+										value="#{projectBean.project.LHContact}" required="true"
+										requiredMessage="Please Enter Contact No" />
+									<p:message id="location-head-contact-msg"
+										for="location-head-contact" display="text" />
+
+									<h:outputLabel for="location-head-email">Email Id*</h:outputLabel>
+									<h:inputText
+										onblur="validateEmail(this.id, 'location-head-email-msg', 'Please Enter Email')"
+										styleClass="form-control noShdow" id="location-head-email"
+										value="#{projectBean.project.LHEmail}" required="true"
+										requiredMessage="Please Enter Email"
+										validatorMessage="Invalid Email" />
+									<p:message id="location-head-email-msg"
+										for="location-head-email" display="text" />
+
+									<h:outputLabel for="location-head-cc" value="CC" />
+									<h:inputText value="#{projectBean.project.LHCC}"
+										onblur="validateCC(this.id, 'location-head-cc-msg', 'Invalid Email')"
+										styleClass="form-control noShdow" id="location-head-cc" />
+									<p:message id="location-head-cc-msg" for="location-head-cc"
+										display="text" />
+
+
+									<h:outputLabel id="Ps-head" value="PS Head Details:-"
+										style="font-weight:bold"></h:outputLabel>
+									<p:message for="Ps-head" />
+									<p:message for="Ps-head" />
+
+									<h:outputLabel for="ps-head-name" value="Name*"></h:outputLabel>
+									<h:inputText
+										onblur="validateString(this.id, 'ps-head-name-msg', 'Please Enter Name')"
+										styleClass="form-control noShdow" id="ps-head-name"
+										value="#{projectBean.project.PSHead}" required="true"
+										requiredMessage="Please Enter Name" />
+									<p:message id="ps-head-name-msg" for="ps-head-name"
+										display="text" />
+
+									<h:outputLabel for="ps-head-contact">Contact No*</h:outputLabel>
+									<h:inputText
+										onblur="validateNumber(this.id, 'ps-head-contact-msg', 'Please Enter Contact Number')"
+										styleClass="form-control noShdow" id="ps-head-contact"
+										value="#{projectBean.project.PSContact}" required="true"
+										requiredMessage="Please Enter Contact No" />
+									<p:message id="ps-head-contact-msg" for="ps-head-contact"
+										display="text" />
+
+									<h:outputLabel for="ps-head-email">Email Id*</h:outputLabel>
+									<h:inputText
+										onblur="validateEmail(this.id, 'ps-head-email-msg', 'Please Enter Email')"
+										styleClass="form-control noShdow" id="ps-head-email"
+										value="#{projectBean.project.PSEmail}" required="true"
+										requiredMessage="Please Enter Email" />
+									<p:message id="ps-head-email-msg" for="ps-head-email"
+										display="text" />
+
+									<h:outputLabel for="ps-head-email-cc" value="CC" />
+									<h:inputText value="#{projectBean.project.PSCC}"
+										onblur="validateCC(this.id, 'ps-head-email-cc-msg', 'Invalid Email')"
+										styleClass="form-control noShdow" id="ps-head-email-cc" />
+									<p:message id="ps-head-email-cc-msg" for="ps-head-email-cc"
+										display="text" />
+								</h:panelGrid>
+
+								<h:panelGrid columns="2" cellpadding="5">
+									<h:panelGroup layout="block" styleClass="offset-xs-3 col-xs-2">
+										<h:commandButton onclick="return getFlag()" id="submit"
+											styleClass="btn btn-success" value="Submit"
+											action="#{projectBean.addProject}" update="growl" />
+									</h:panelGroup>
+									<h:panelGroup layout="block" styleClass="col-xs-2">
+										<h:commandButton value="Reset" styleClass="btn btn-danger">
+											<p:ajax update="form" resetValues="true" />
+										</h:commandButton>
+									</h:panelGroup>
+								</h:panelGrid>
+
+							</h:form>
+						</h:panelGroup>
+
+					</h:panelGroup>
+				</h:panelGroup>
+			</h:panelGroup>
+
+		</h:panelGroup>
+	</h:panelGroup>
+
+
+</h:body>
+
+</html>

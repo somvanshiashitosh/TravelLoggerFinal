@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>Forex Requirement</title>
+
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+	<meta http-equiv="x-ua-compatible" content="ie=edge" />
+
+	<!-- Bootstrap CSS -->
+	<h:outputStylesheet name="css/bootstrap/bootstrap.min.css" />
+	<h:outputStylesheet name="css/custom/resourcetracker.css" />
+	<h:outputStylesheet name="css/custom/travelLogger.css" />
+	<h:outputStylesheet name="fonts/css/font-awesome.min.css" />
+
+	<!-- jQuery first, then Tether, then Bootstrap JS. -->
+	<h:outputScript name="tether-1.3.3/dist/js/tether.min.js" />
+	<h:outputScript name="js/bootstrap/bootstrap.min.js" />
+	<h:outputScript name="js/custom/ManageProjectAccordion.js" />
+	<h:outputScript name="js/custom/ForexRequirement.js"/>
+	<script type="text/javascript">
+		history.pushState(null, null, location.href);
+		window.onpopstate = function() {
+			history.go(1);
+		};
+	</script>
+	
+	<style>
+		.ui-widget-content {
+			background-color: white;
+		}
+		
+		.ui-widget-header {
+			background: #424242;
+			color: white;			
+			font-size: 14px;
+		}
+		
+		.ui-dialog-content {
+			background: white !important;
+			padding: 0, 0, 0, 0 !important;
+			font-size: 14px;
+		}
+		
+		.input-text {
+			width: 600px;
+			height: 25px;
+		}
+		
+		.input-editor {
+			width: 665px;
+		}
+		
+		.length {
+			width: 60px;
+		}
+	</style>
+</h:head>
+
+<h:body>
+
+	<ui:include src="/WEB-INF/header.xhtml" />
+	<ui:include src="/WEB-INF/footer.xhtml" />
+	<h:panelGroup layout="block" styleClass="container-fluid">
+		<h:panelGroup layout="block" styleClass="row">
+			<ui:include src="/WEB-INF/sidebar.xhtml" />
+			<h:panelGroup layout="block"
+				class="col-xs-10 col-sm-9 offset-md-2 col-md-10 main">
+				<h4>Forex Requirement</h4>
+				<h:panelGroup layout="block" class="row">
+					<h:panelGroup layout="block" class="col-md-12" style="margin-bottom:100px;">
+					
+						<h:form id="form">
+							<p:messages id="growl" showDetail="true" sticky="false"	closeable="true" escape="false" severity="info, fatal" />	
+							<h:panelGrid id="gridy" columns="3" cellpadding="5">				
+																
+								<h:outputLabel for="travellerName" value="Traveller Name (as per passport)*:"/>
+								<h:inputText value="#{forex.forex.travellerName}" onblur="validateName(this.id,'travellerName-msg','Please Enter Name')" id="travellerName" tabindex="1" styleClass="form-control noShdow" required="true" requiredMessage="Please Enter Name"/>
+								<p:message for="travellerName" id="travellerName-msg" display="text"/>
+								
+								
+								<h:outputLabel for="country" value="Travelling Country*:"/>
+								<h:inputText  value="#{forex.forex.country}" onblur="validateName(this.id,'country-msg','Please Enter Country Name')" id="country" tabindex="2" styleClass="form-control noShdow" required="true" requiredMessage="Please Enter Country"/>
+								<p:message for="country" id="country-msg" display="text"/>
+								
+								<h:outputLabel for="currency" value="Travelling Country Currency*:"/>
+								<h:inputText  value="#{forex.forex.currency}" onblur="validateCurrency(this.id, 'currency-msg','Please Enter Currency')" id="currency" tabindex="3" styleClass="form-control noShdow" required="true" requiredMessage="Please Enter Currency"/>
+								<p:message for="currency" id="currency-msg" display="text"/>
+								
+								<h:outputLabel for="projectName" value="Project Name*:"/>
+									<h:selectOneMenu  value="#{forex.forex.projectName}" onblur="validateDropDown(this.id,'projectName-msg','Please Enter Project Name')" tabindex="4" id="projectName" styleClass="form-control" required="true" requiredMessage="Please Enter Project Name">
+										<f:selectItem itemLabel="Select Project Name" itemValue=""	noSelectionOption="true" />
+										<f:selectItems value="#{forex.projectList}"/>
+									</h:selectOneMenu>
+								<p:message id="projectName-msg" for="projectName" display="text" />
+								
+								
+								<h:outputLabel for="travelStartDate" value="Travel Start Date(dd-mm-yyyy)*: "	escape="false"/>
+								<p:calendar  value="#{forex.forex.travelStartDate}" onblur="validateTravelDate(this.id,'travelStartDate-msg','Please Enter Date')" tabindex="5" id="travelStartDate" styleClass="calendar-input" navigator="true" pattern="dd/MM/yyyy" required="true"	requiredMessage="Please enter Start Date"	yearRange="c-50:c+10">
+									<f:convertDateTime pattern="dd/MM/yyyy" />
+									<f:ajax event="dateSelect" onevent="validateTravelDate(this.id,'travelStartDate-msg','Please Enter Date')"/>
+								</p:calendar>
+								<p:message id="travelStartDate-msg" for="travelStartDate" display="text" />
+								
+
+								<h:outputLabel for="travelEndDate"	value="Travel End Date(dd-mm-yyyy)*: " escape="false"/>
+								<p:calendar  value="#{forex.forex.travelEndDate}" onblur="validateTravelDate(this.id,'travelEndDate-msg','Please Enter Date')" id="travelEndDate" tabindex="6" styleClass="calendar-input" navigator="true" pattern="dd/MM/yyyy" required="true"	requiredMessage="Please enter Expected Travel End Date"	yearRange="c-50:c+10" >
+									<f:convertDateTime pattern="dd/MM/yyyy" />
+									<f:ajax event="dateSelect" onevent="validateTravelDate(this.id,'travelEndDate-msg','Please Enter Date')"/>
+								</p:calendar>
+								<p:message id="travelEndDate-msg" for="travelEndDate" display="text" />
+								
+								<h:outputLabel for="referenceCurrency" value="Reference Currency*:"/>
+									<h:selectOneMenu  value="#{forex.forex.referenceCurrency}" onblur="validateDropDown(this.id,'referenceCurrency-msg','Please Select Currency')" tabindex="7" id="referenceCurrency" styleClass="form-control" required="true" requiredMessage="Please Enter Currency">
+										<f:selectItem itemLabel="Select Currency" itemValue=""	noSelectionOption="true" />
+										<f:selectItems value="#{forex.currencyList}"/>
+										<p:ajax event="blur" update="perdiumUnitId travelUnitId hotelUnitId applicable applicableId showCalculation"/>
+									</h:selectOneMenu>
+								<p:message id="referenceCurrency-msg" for="referenceCurrency" display="text" />
+								
+								<h:outputLabel id="applicableId" for="applicable" value="Applicable #{forex.forex.referenceCurrency}*:" />
+								<h:inputText maxlength="8"  value="#{forex.forex.applicableCurrency}" onblur="applicableUnit(this.id, 'applicable-msg','Please Enter Applicable #{forex.forex.referenceCurrency}')" id="applicable" onkeypress="if(event.which &lt; 46 || event.which &gt; 57) if(event.which != 8) return false;" tabindex="8" styleClass="form-control noShdow" required="true" requiredMessage="Please Enter Applicable #{forex.forex.referenceCurrency}"/> 
+                    			<p:message id="applicable-msg" for="applicable" display="text" />
+								
+								<h:outputLabel for="ConversionRate" value="Currency Conversion Rate*:" />
+								<h:inputText maxlength="8"  value="#{forex.forex.rate}" onblur="conversionRateCall(this.id, 'ConversionRate-msg','Please Enter Rate')" id="ConversionRate" onkeypress="if(event.which &lt; 46 || event.which &gt; 57) if(event.which != 8) return false;" tabindex="9" styleClass="form-control noShdow" required="true" requiredMessage="Please Enter Rate"/> 
+                    			<p:message id="ConversionRate-msg" for="ConversionRate" display="text" />
+                    			
+                    			
+                    			<h:outputLabel for="conversionDate" value="Conversion Rate Date(dd-mm-yyyy)*: "/>
+								<p:calendar  value="#{forex.forex.conversionRateDate}" onblur="validateFormDate(this.id,'conversionDate-msg','Please Select Date')" tabindex="10" id="conversionDate" styleClass="calendar-input" navigator="true" pattern="dd/MM/yyyy" required="true"	requiredMessage="Please Enter Date"	yearRange="c-50:c+10">
+									<f:convertDateTime pattern="dd/MM/yyyy" />
+									<f:ajax event="dateSelect" onevent="validateFormDate(this.id,'conversionDate-msg','Please Select Date')"/>
+								</p:calendar>
+								<p:message id="conversionDate-msg" for="conversionDate" display="text" />	
+								
+								<p:spacer/>
+								<h:outputText style="font-size:12px;" value="Number of Days x Charges per Day"/>
+								<p:spacer/>
+																			
+								<h:outputLabel for="hotelTotal" value="Hotel Charges*: "/>
+								<h:panelGrid id="hotelGrid" columns="6" cellpadding="5">																	
+									<p:inputText maxlength="8"  value="#{forex.hotelCharges.numberOfDay}" onblur="calculateOnDayChange('hotelPerDay', 'hotelNumberOfDays', 'hotelTotal', 'hotelTotal-msg', 'Please Enter Number of Day')" onkeypress="if(event.which &lt; 46 || event.which &gt; 57 ) if(event.which != 8) return false;" id="hotelNumberOfDays" styleClass="form-control noShdow length" required="true" requiredMessage="Please Enter Number Of Day"/>								
+									x<p:inputText maxlength="8" value="#{forex.hotelCharges.chargePerDay}" onblur="calculateTotal('hotelNumberOfDays', 'hotelPerDay', 'hotelTotal', 'hotelTotal-msg', 'Please Enter per Day Charges')" onkeypress="if(event.which &lt; 46 || event.which &gt; 57 ) if(event.which != 8) return false;"  id="hotelPerDay" tabindex="11" styleClass="form-control noShdow length" required="true" requiredMessage="Please Enter per Day Charge"/>								
+									=<p:inputText maxlength="8" value="#{forex.hotelCharges.total}" id="hotelTotal" styleClass="form-control noShdow length" required="true" requiredMessage="Please Enter Charges" />
+									<h:outputText id="hotelUnitId" value="#{forex.forex.referenceCurrency}"/>
+								</h:panelGrid>
+								<p:message id="hotelTotal-msg" for="hotelTotal" display="text" />
+								                    			
+                    			
+								<h:outputLabel for="travelTotal" value="Travel Charges*: "/>
+								<h:panelGrid id="travelGrid" columns="6" cellpadding="5">
+									<p:inputText maxlength="8" value="#{forex.travelCharges.numberOfDay}" onblur="calculateOnDayChange('travelPerDay', 'travelNumberOfDay', 'travelTotal', 'travelTotal-msg', 'Please Enter Number of Day')" onkeypress="if(event.which &lt; 46 || event.which &gt; 57 ) if(event.which != 8) return false;" id="travelNumberOfDay" styleClass="form-control noShdow length" required="true" requiredMessage="Please Enter Number Of day"/>
+									x<p:inputText maxlength="8" value="#{forex.travelCharges.chargePerDay}" onblur="calculateTotal('travelNumberOfDay', 'travelPerDay', 'travelTotal', 'travelTotal-msg', 'Please Enter per Day Charges')" onkeypress="if(event.which &lt; 46 || event.which &gt; 57 ) if(event.which != 8) return false;" id="travelPerDay" tabindex="12" styleClass="form-control noShdow length" required="true" requiredMessage="Please Enter per Day Charge"/> 
+									=<p:inputText maxlength="8" value="#{forex.travelCharges.total}" id="travelTotal" styleClass="form-control noShdow length" required="true" requiredMessage="Please Enter Charges"/>  
+	                    			<h:outputText id="travelUnitId" value="#{forex.forex.referenceCurrency}"/>
+	                    		</h:panelGrid>
+                    			<p:message id="travelTotal-msg" for="travelTotal" display="text" />
+                    			
+                    			<p:spacer/>
+								<h:outputText id="showCalculation" style="font-size:12px;" value="Number of Days x (Applicable #{forex.forex.referenceCurrency} x Conversion Rate)"/>
+								<p:spacer/>
+                    			
+								<h:outputLabel for="perdiumTotal" value="Perdiem*: "/>
+								<h:panelGrid id="perdiumGrid" columns="6" cellpadding="5">
+									<p:inputText maxlength="8" value="#{forex.perdiumCharges.numberOfDay}" onblur="perDiemCalculation(this.id)" onkeypress="if(event.which &lt; 46 || event.which &gt; 57 ) if(event.which != 8) return false;" id="perdiemNumberOfDays" styleClass="form-control noShdow length" required="true" requiredMessage="Please Enter Number of Day"/>
+									x<p:inputText maxlength="8" value="#{forex.perdiumCharges.chargePerDay}" onblur="perDiemCalculation(this.id)" onkeypress="if(event.which &lt; 46 || event.which &gt; 57 ) if(event.which != 8) return false;" id="perdiumPerDay" tabindex="12" styleClass="form-control noShdow length" required="true" requiredMessage="Please Enter per Day Charge"/> 
+									=<p:inputText maxlength="8" value="#{forex.perdiumCharges.total}" id="perdiumTotal" styleClass="form-control noShdow length" required="true" requiredMessage="Please Enter Charges" />   
+	                    			<h:outputText id="perdiumUnitId" value="#{forex.forex.referenceCurrency}"/>
+	                    		</h:panelGrid>	
+                    			<p:message id="perdiumTotal-msg" for="perdiumTotal" display="text" />
+                    			
+                    			
+                    			
+								<h:outputLabel for="Miscellaneous" value="Miscellaneous Charges:" />
+								<h:inputText maxlength="8" value="#{forex.forex.miscellaneousCharges}" onblur="miscellaneous(this.id)" onkeypress="if(event.which &lt; 46 || event.which &gt; 57 ) if(event.which != 8) return false;" id="Miscellaneous" tabindex="13" styleClass="form-control noShdow" /> 
+                    			<p:message id="Miscellaneous-msg" for="Miscellaneous" display="text" />
+                    			
+                    			
+								<h:outputLabel for="cardNumber" value="Card Number (if existing):"/>
+								<h:inputText value="#{forex.forex.cardNumber}" onblur="validateCard(this.id, 'cardNumber-msg', '')" onkeypress="if(event.which &lt; 46 || event.which &gt; 57 ) if(event.which != 8) return false;" id="cardNumber" tabindex="14" styleClass="form-control noShdow" />
+								<p:message for="cardNumber" id="cardNumber-msg" display="text"/>
+								
+								
+								<h:outputLabel for="cash" value="Forex in Cash*:"/>
+								<h:inputText maxlength="8" onblur="forexAmount()" value="#{forex.forex.forexCash}" onkeypress="if(event.which &lt; 46 || event.which &gt; 57 ) if(event.which != 8) return false;" id="cash" tabindex="15" styleClass="form-control noShdow" required="true" requiredMessage="Please Enter Amount"/>
+								<p:message for="cash" id="cash-msg" display="text"/>
+								
+								
+								<h:outputLabel for="card" value="Forex by Card:"/>
+								<h:inputText maxlength="8" onblur="forexAmount()" value="#{forex.forex.forexCard}" onkeypress="if(event.which &lt; 46 || event.which &gt; 57 ) if(event.which != 8) return false;" id="card" tabindex="16" styleClass="form-control noShdow" />
+								<p:message for="card" id="card-msg" display="text"/>
+								
+									
+								<h:outputLabel for="total" value="Total:"/>
+								<h:inputText maxlength="8" value="#{forex.forex.total}" id="total" tabindex="17" styleClass="form-control noShdow" />
+								<p:message for="total" id="total-msg" display="text"/>
+								
+					
+							</h:panelGrid>
+							<br></br>					
+								
+							<h:panelGrid columns="2" cellpadding="5">
+								<h:panelGroup layout="block" styleClass="offset-xs-10 col-xs-2">
+									<h:commandButton onclick="return getFlag()" actionListener="#{forex.PopulateEmail}" tabindex="18" id="submit" type="submit" styleClass="btn btn-success" value="Send Mail"/>																														
+								</h:panelGroup>	
+								<h:panelGroup layout="block" styleClass="offset-xs-10 col-xs-2">
+									<h:button tabindex="19" value="Reset" type="reset" styleClass="btn btn-danger"/>											
+								</h:panelGroup>								
+							</h:panelGrid>
+							
+							<p:dialog id="sendMailApprovalId" width="900px" header="#{forex.mail.dailogHeader}" widgetVar="sendMail" >
+
+									<h:panelGrid id="sendMailApprovalGrid" columns="3" cellpadding="5">
+	
+										<h:outputLabel for="to" value="To:"/>
+										<h:inputText onblur="emailFieldValidation(this.id)" id="to"	value="#{forex.mail.to}" styleClass="form-control noShdow input-text" />
+										<p:message for="to" id="to-msg"/>
+	
+										<h:outputLabel for="cc" value="CC:"/>
+										<h:inputText onblur="emailFieldValidation(this.id)" id="cc" value="#{forex.mail.cc}" styleClass="input-text form-control noShdow" />
+										<p:message for="cc" id="cc-msg"/>
+	
+										<h:outputLabel for="bcc" value="BCC:"/>
+										<h:inputText onblur="emailFieldValidation(this.id)" id="bcc" value="#{forex.mail.bcc}" styleClass="input-text form-control noShdow" />
+										<p:message for="bcc" id="bcc-msg"/>
+	
+										<h:outputLabel for="subject" value="Subject:"/>
+										<h:inputText onblur="subjectFieldValidation(this.id)" id="subject" value="#{forex.mail.subject}" styleClass="input-text form-control noShdow" />
+										<p:message for="subject" id="subject-msg"/>
+	
+									</h:panelGrid>
+	
+									<p:editor onblur="subjectFieldValidation(this.id)" id="body" widgetVar="bodyVariable" value="#{forex.mail.body}" height="150" styleClass="input-editor"/>
+									<p:message for="body" id="body-msg"/>
+									<br></br>
+	
+									<h:commandButton onclick="return validateOnClick()" type="button"	styleClass="btn btn-success" value="Send Email" >
+										<f:ajax event="click" listener="#{forex.sendMail}" execute="@form" render="@form" />
+									</h:commandButton>
+
+								</p:dialog>
+							
+						</h:form>
+					</h:panelGroup>
+				</h:panelGroup>
+			</h:panelGroup>
+		</h:panelGroup>
+	</h:panelGroup>
+</h:body>
+</html>

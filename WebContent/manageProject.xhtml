@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>Manage Project</title>
+
+	<meta charset="utf-8" />
+	<meta name="viewport"
+		content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+	<meta http-equiv="x-ua-compatible" content="ie=edge" />
+
+	<!-- Bootstrap CSS -->
+	<h:outputStylesheet name="css/bootstrap/bootstrap.min.css" />
+	<h:outputStylesheet name="css/custom/resourcetracker.css" />
+	<h:outputStylesheet name="css/custom/travelLogger.css" />
+	<h:outputStylesheet name="fonts/css/font-awesome.min.css" />
+
+	<!-- jQuery first, then Tether, then Bootstrap JS. -->
+	<h:outputScript name="tether-1.3.3/dist/js/tether.min.js" />
+	<h:outputScript name="js/bootstrap/bootstrap.min.js" />
+	<h:outputScript name="js/custom/ManageProjectAccordion.js" />
+	<script type="text/javascript">
+		history.pushState(null, null, location.href);
+		window.onpopstate = function() {
+			history.go(1);
+		};
+	</script>
+</h:head>
+
+<h:body>
+
+	<ui:include src="/WEB-INF/header.xhtml" />
+	<ui:include src="/WEB-INF/footer.xhtml" />
+	<h:panelGroup layout="block" styleClass="container-fluid">
+		<h:panelGroup layout="block" styleClass="row">
+			<ui:include src="/WEB-INF/sidebar.xhtml" />
+			<h:panelGroup layout="block"
+				class="col-xs-10 col-sm-9 offset-md-2 col-md-10 main">
+				<h4>Manage Projects</h4>
+				<h:panelGroup layout="block" class="row">
+					<h:panelGroup layout="block" class="col-md-12" style="margin-bottom:100px;">
+						<h:form id="form">
+						<h:inputHidden id="projectId" value="#{manageProject.hiddenId}"/>
+						<h:outputText value="#{manageProject.emptyStatus=='Empty' ? 'Active Project Not Found' : ''}" />
+							<p:accordionPanel id="panel" value="#{manageProject.list}" 
+								styleClass="spacing" var="project" activeIndex="-">
+								
+								<p:tab id="tab" 
+									title="&lt;div style='width:300px;float:left;' &gt;Project Code - #{project.projectCode} &lt;/div&gt;  &lt;div style='width:300px;overflow:hidden;float:left' &gt;Project Name - #{project.projectName} &lt;/div&gt;  &lt;span style='width:300px;' &gt;Project Country - #{project.projectCountry}&lt;/span&gt;"
+									escape="false">
+									<h:inputHidden id="id" value="#{project.id}"/>
+									<h:panelGrid columns="4"  cellpadding="15">
+										
+										<h:outputText value="Manager Name:" style="font-weight:bold"/>
+										<h:outputText value="#{project.managerName}"/>
+										
+										<h:outputText value="Manager Contact:" style="font-weight:bold"/>
+										<h:outputText value="#{project.managerContact}"/>
+										
+										<h:outputText value="Manager Email:" style="font-weight:bold"/>
+										<h:outputText value="#{project.managerEmail}"/>
+										
+										<h:outputText value="Project Head:" style="font-weight:bold"></h:outputText>
+										<h:outputText value="#{project.projectHead}"></h:outputText>
+
+										<h:outputText value="Project Head Email:"
+											style="font-weight:bold"></h:outputText>
+										<h:outputText value="#{project.PHEmail}"></h:outputText>
+
+										<h:outputText value="Project Head Contact:"
+											style="font-weight:bold"></h:outputText>
+										<h:outputText value="#{project.PHContact}"></h:outputText>
+
+										<h:outputText value="Location Head:" style="font-weight:bold"></h:outputText>
+										<h:outputText value="#{project.locationHead}"></h:outputText>
+
+										<h:outputText value="Location Head Email:"
+											style="font-weight:bold"></h:outputText>
+										<h:outputText value="#{project.LHEmail}"></h:outputText>
+
+										<h:outputText value="Location Head Contact:"
+											style="font-weight:bold"></h:outputText>
+										<h:outputText value="#{project.LHContact}"></h:outputText>
+
+										<h:outputText value="Ps Head:" style="font-weight:bold"></h:outputText>
+										<h:outputText value="#{project.PSHead}"></h:outputText>
+
+										<h:outputText value="Ps Head Email:" style="font-weight:bold"></h:outputText>
+										<h:outputText value="#{project.PSEmail}"></h:outputText>
+
+										<h:outputText value="Ps Head Contact:"
+											style="font-weight:bold"></h:outputText>
+										<h:outputText value="#{project.PSContact}"></h:outputText>
+										
+										<h:outputText value="Project Status:" style="font-weight:bold"></h:outputText>
+										<h:commandLink onclick="getId(this.id)" actionListener="#{manageProject.toggleStatus}" id="Status" value="#{project.projectStatus == 'InProgress' ? 'Close Project' : 'Start Project'}" style="#{project.projectStatus == 'InProgress' ? 'color: green' : 'color: blue'}"/>
+                                        
+									</h:panelGrid>
+								</p:tab>
+							</p:accordionPanel>
+						</h:form>
+					</h:panelGroup>
+				</h:panelGroup>
+			</h:panelGroup>
+		</h:panelGroup>
+	</h:panelGroup>
+</h:body>
+</html>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html">
+<h:head>
+	
+</h:head>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	<h:panelGroup layout="block" styleClass="col-xs-2 col-md-2 sidebar">
+		<h:panelGroup layout="block" styleClass="card">
+			<p:accordionPanel>
+				<p:tab title="Profile" styleClass="card-header card-block">
+					<h:panelGroup layout="block" styleClass="list-group">
+						<h:link id="editProfile" outcome="edit.xhtml" onmouseover="changeColor(this.id)" class="list-group-item">Edit Profile</h:link>
+						<h:link outcome="EditVisa.xhtml" class="list-group-item ">Edit Visa Details</h:link>
+						<h:link outcome="AddVisa.xhtml" class="list-group-item ">Add Visa Details</h:link>
+					</h:panelGroup>
+				</p:tab>
+				<p:tab title="Travel Log" rendered="#{sidebarBean.travelCheck}"
+					styleClass="card-header card-block">
+					<h:panelGroup layout="block" styleClass="list-group">
+						<h:link outcome="manageTravel.xhtml" class="list-group-item ">Manage Travel Log</h:link>
+						<h:link outcome="AddTravelLog.xhtml" class="list-group-item ">New Travel Log</h:link>
+						<h:link outcome="TravelHistory.xhtml" class="list-group-item ">Travel History</h:link>
+					</h:panelGroup>
+				</p:tab>
+				<p:tab title="Project" rendered="#{sidebarBean.projectCheck}"
+					styleClass="card-header card-block">
+					<h:panelGroup layout="block" styleClass="list-group">
+						<h:link outcome="manageProject.xhtml" class="list-group-item ">Manage Project</h:link>
+						<h:link outcome="addproject.xhtml" class="list-group-item ">New Project</h:link>
+						<h:link outcome="ProjectHistory.xhtml" class="list-group-item ">Project History</h:link>
+					</h:panelGroup>
+				</p:tab>
+				<p:tab title="Travel Agency"
+					rendered="#{sidebarBean.travelAgencyCheck}"
+					styleClass="card-header card-block">
+					<h:panelGroup layout="block" styleClass="list-group">
+						<h:link outcome="manageTravelAgency.xhtml"
+							class="list-group-item ">Manage Travel Agency</h:link>
+						<h:link outcome="addtravelagency.xhtml" class="list-group-item ">New Travel Agency</h:link>
+					</h:panelGroup>
+				</p:tab>
+				<p:tab title="Role" rendered="#{sidebarBean.roleCheck}"
+					styleClass="card-header card-block">
+					<h:panelGroup layout="block" styleClass="list-group">
+						<h:link outcome="Roles.xhtml" class="list-group-item ">Assign Role</h:link>
+					</h:panelGroup>
+				</p:tab>
+				<p:tab title="Miscellaneous" rendered="true"
+					styleClass="card-header card-block">
+					<h:panelGroup layout="block" styleClass="list-group">
+						<h:link outcome="TravelInsurance.xhtml" class="list-group-item ">Travel Insurance</h:link>
+						<h:link outcome="LaptopLetter.xhtml" class="list-group-item ">Laptop Letter</h:link>
+						<h:link outcome="ForexRequirement.xhtml" class="list-group-item ">Forex Requirement</h:link>
+					</h:panelGroup>
+				</p:tab>
+			</p:accordionPanel>
+		</h:panelGroup>
+	</h:panelGroup>
+</ui:composition>
+</html>

@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<script type="text/javascript">
+		history.pushState(null, null, location.href);
+		window.onpopstate = function() {
+			history.go(1);
+		};
+	</script>
+	<title>New TravelLog</title>
+	<meta charset="utf-8" />
+	<meta name="viewport"
+		content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+	<meta http-equiv="x-ua-compatible" content="ie=edge" />
+
+	<!-- Bootstrap CSS -->
+	<h:outputStylesheet name="css/bootstrap/bootstrap.min.css" />
+	<h:outputStylesheet name="css/custom/resourcetracker.css" />
+	<h:outputStylesheet name="fonts/css/font-awesome.min.css" />
+
+	<!-- <script src="resources/js/jquery/jquery-3.1.1.min.js"></script> -->
+	<!-- <script src="resources/js/bootstrap.min.js"></script> -->
+	<script src="resources/js/custom/validation.js"></script>
+</h:head>
+
+<h:body>
+	<ui:include src="/WEB-INF/header.xhtml" />
+	<ui:include src="/WEB-INF/footer.xhtml" />
+	<h:panelGroup layout="block" styleClass="container-fluid">
+		<h:panelGroup layout="block" styleClass="row">
+			<ui:include src="/WEB-INF/sidebar.xhtml" />
+			<h:panelGroup layout="block" styleClass="offset-xs-2 col-xs-10 main">
+				<h4>
+					<h:outputText value="New TravelLog" id="head" />
+				</h4>
+				<h:panelGroup styleClass="row form-group">
+					<h:panelGroup styleClass="col-xs-12">
+						<h:panelGroup styleClass="card card-block">
+							<h:form id="form" onkeypress="return event.keyCode != 13;">
+
+								<p:messages id="growl" showDetail="true" sticky="false"
+									closeable="true" escape="false" severity="info, fatal" />
+								<h:panelGrid id="gridy" columns="3" cellpadding="5">
+									<h:outputLabel for="traveller-text-input">Name of Traveller*</h:outputLabel>
+									<p:autoComplete styleClass="form-control noShdow"
+										id="traveller-text-input"
+										value="#{addTravelBean.travellerName}"
+										completeMethod="#{addTravelBean.completeText}" required="true"
+										requiredMessage="Please Enter Traveller Name">
+										<f:ajax event="blur"
+											listener="#{addTravelBean.validateUser()}"
+											execute="inValidUser traveller-text-input"
+											render="inValidUser traveller-name-msg designation-text-input" />
+										<f:ajax event="itemSelect"
+											listener="#{addTravelBean.validateUser()}"
+											execute="inValidUser traveller-text-input"
+											render="inValidUser traveller-name-msg designation-text-input" />
+									</p:autoComplete>
+									<p:message id="traveller-name-msg" for="traveller-text-input"
+										display="text" />
+
+									<p:message for="inValidUser" display="text" />
+									<p:dialog header="New User Registeration" widgetVar="dlg">
+										<h:panelGrid columns="3" cellpadding="5">
+											<h:outputLabel for="email-input" value="Email address:*"></h:outputLabel>
+											<h:inputText id="email-input"
+												value="#{addTravelBean.registerUserEmail}"
+												styleClass="form-control noShdow" />
+											<p:messages id="dlgMessage" severity="info, fatal" />
+										</h:panelGrid>
+										<h:panelGrid columns="2" cellpadding="5">
+											<h:panelGroup layout="block"
+												styleClass="offset-xs-10 col-xs-2">
+												<h:commandButton type="button" styleClass="btn btn-success"
+													value="Send Email">
+													<f:ajax event="click" render="dlgMessage"
+														execute="email-input"
+														listener="#{addTravelBean.sendRegistrationEmail}"></f:ajax>
+												</h:commandButton>
+											</h:panelGroup>
+										</h:panelGrid>
+									</p:dialog>
+									<h:commandButton type="button"
+										disabled="#{addTravelBean.inValidateUserName=='User not registered, Click here to register'?false:true}"
+										styleClass="btn btn-link" onclick="PF('dlg').show();"
+										id="inValidUser" value="#{addTravelBean.inValidateUserName}"></h:commandButton>
+
+									<h:outputLabel for="customerInput">Customer Name*</h:outputLabel>
+									<h:inputText styleClass="form-control noShdow"
+										onblur="customerName()" id="customerInput"
+										value="#{addTravelBean.customerName}" required="true"
+										requiredMessage="Please Enter Customer Name" disabled="false">
+									</h:inputText>
+									<p:message styleClass="" id="customer-name-msg"
+										for="customerInput" display="text" />
+
+									<h:outputLabel for="projectName-input">Project Name*</h:outputLabel>
+									<h:selectOneMenu id="projectName-input" onblur="projectName()"
+										value="#{addTravelBean.projectName}" styleClass="form-control"
+										required="true" requiredMessage="Please Enter Project Name">
+										<f:selectItem itemLabel="Select Project Name" itemValue=""
+											noSelectionOption="true" />
+										<f:selectItems value="#{addTravelBean.projectList}" />
+										<f:ajax event="blur"
+											listener="#{addTravelBean.updateProjectcode}"
+											render="projectCode-text-input" execute="projectName-input" />
+									</h:selectOneMenu>
+									<p:message id="project-name-msg" for="projectName-input"
+										display="text" />
+
+									<h:outputLabel for="projectCode-text-input">Project Code*</h:outputLabel>
+									<h:inputText readonly="true" styleClass="form-control noShdow"
+										id="projectCode-text-input"
+										value="#{addTravelBean.projectCode}" required="true"
+										requiredMessage="Please Enter Project Code" disabled="false" />
+									<p:message id="project-code-msg" for="projectCode-text-input"
+										display="text" />
+
+									<h:outputLabel for="designation-text-input">Designation*</h:outputLabel>
+									<h:inputText readonly="true" styleClass="form-control noShdow"
+										id="designation-text-input"
+										value="#{addTravelBean.designation}" required="true"
+										requiredMessage="Please Enter Project Code" disabled="false" />
+									<p:message id="designation-msg" for="designation-text-input"
+										display="text" />
+
+									<h:outputLabel for="travel-destination"
+										value="Travel Destination:*"></h:outputLabel>
+									<h:selectOneMenu onblur="travelDestination()"
+										id="travel-destination"
+										value="#{addTravelBean.travelDestinationString}"
+										styleClass="form-control" required="true"
+										requiredMessage="Please select Travel Destination">
+										<f:selectItem itemLabel="Select Destination" itemValue=""
+											noSelectionOption="true" />
+										<f:selectItems value="#{addTravelBean.travelDestination}" />
+										<f:ajax event="blur"
+											listener="#{addTravelBean.validatePassport()}"
+											execute="expected-end-date expected-start-date travel-destination"
+											render="valid-visa invalid-visa" />
+									</h:selectOneMenu>
+									<p:message id="travel-destination-msg" for="travel-destination"
+										display="text" />
+
+									<h:outputLabel for="expected-start-date"
+										value="Expected Travel &lt;br /&gt; Start Date(dd-mm-yyyy):* "
+										escape="false"></h:outputLabel>
+									<p:calendar id="expected-start-date"
+										styleClass="calendar-input"
+										value="#{addTravelBean.travelStartDate}" locale="en"
+										navigator="true" pattern="dd/MM/yyyy" required="true"
+										requiredMessage="Please enter Expected Travel Start Date"
+										yearRange="c-50:c+10" readonlyInput="true">
+										<f:convertDateTime pattern="dd/MM/yyyy" />
+										<f:ajax event="dateSelect"
+											listener="#{addTravelBean.validatePassport()}"
+											execute="expected-end-date expected-start-date travel-destination"
+											render="valid-visa invalid-visa" />
+									</p:calendar>
+									<p:message id="expected-start-msg" for="expected-start-date"
+										display="text" />
+
+									<h:outputLabel for="expected-end-date"
+										value="Expected Travel &lt;br /&gt; End Date(dd-mm-yyyy):* "
+										escape="false"></h:outputLabel>
+									<p:calendar id="expected-end-date" styleClass="calendar-input"
+										value="#{addTravelBean.travelEndDate}" locale="en"
+										navigator="true" pattern="dd/MM/yyyy" required="true"
+										requiredMessage="Please enter Expected Travel End Date"
+										yearRange="c-50:c+10" readonlyInput="true">
+										<f:convertDateTime pattern="dd/MM/yyyy" />
+										<f:ajax event="dateSelect"
+											listener="#{addTravelBean.validatePassport()}"
+											execute="expected-end-date expected-start-date travel-destination"
+											render="valid-visa invalid-visa" />
+									</p:calendar>
+									<p:message id="expected-end-msg" for="expected-end-date"
+										display="text" />
+
+									<h:outputLabel value="Visa Status:*"></h:outputLabel>
+									<h:inputText readonly="true" styleClass="form-control noShdow"
+										id="valid-visa" value="#{addTravelBean.validVisa}"
+										disabled="true" />
+									<h:commandButton type="button" onclick="PF('dlg2').show();"
+										disabled="#{addTravelBean.invalidVisa=='Visa Needs To Be Applied, Click Here'?false:true}"
+										styleClass="btn btn-link" id="invalid-visa"
+										value="#{addTravelBean.invalidVisa}"></h:commandButton>
+
+
+									<h:outputLabel for="project-initiation-end-date"
+										value="Project Level Request &lt;br /&gt; Initiation date(dd-mm-yyyy):* "
+										escape="false"></h:outputLabel>
+									<p:calendar id="project-initiation-end-date"
+										onblur="projectInitiationDate()" styleClass="calendar-input"
+										value="#{addTravelBean.projectInitiationDate}" locale="en"
+										navigator="true" pattern="dd/MM/yyyy" required="true"
+										requiredMessage="Please enter Project Level Initiation Date"
+										yearRange="c-50:c+10" readonlyInput="true">
+										<f:convertDateTime pattern="dd/MM/yyyy" />
+										<f:ajax event="dateSelect" onevent="projectInitiationDate"
+											listener="#{addTravelBean.expectedDateValidation}"
+											execute="project-initiation-end-date project-confirmation-end-date project-confirmation-end-date-msg"
+											render="project-initiation-end-date project-confirmation-end-date project-confirmation-end-date-msg" />
+									</p:calendar>
+									<p:message id="project-initiation-end-date-msg"
+										for="project-initiation-end-date" display="text" />
+
+									<h:outputLabel for="project-confirmation-end-date"
+										value="Project Level travel &lt;br /&gt; Confirmation date(dd-mm-yyyy):* "
+										escape="false"></h:outputLabel>
+									<p:calendar id="project-confirmation-end-date"
+										onblur="projectDate()" styleClass="calendar-input"
+										value="#{addTravelBean.projectConfirmationDate}" locale="en"
+										navigator="true" pattern="dd/MM/yyyy" required="true"
+										requiredMessage="Please enter Project Travel Confirmation Date"
+										yearRange="c-50:c+10" readonlyInput="true">
+										<f:convertDateTime pattern="dd/MM/yyyy" />
+										<f:ajax event="dateSelect" onevent="projectDate"
+											listener="#{addTravelBean.expectedDateValidation}"
+											execute="project-initiation-end-date project-confirmation-end-date project-confirmation-end-date-msg"
+											render="project-initiation-end-date project-confirmation-end-date project-confirmation-end-date-msg" />
+									</p:calendar>
+									<p:message id="project-confirmation-end-date-msg"
+										for="project-confirmation-end-date" display="text" />
+
+									<h:outputLabel for="cost-coveredBy" value="Cost Covered By:*"></h:outputLabel>
+									<h:selectOneMenu onblur="costCoveredBy()" id="cost-coveredBy"
+										value="#{addTravelBean.costCoveredString}"
+										styleClass="form-control" required="true"
+										requiredMessage="Please select Cost Covered By">
+										<f:selectItem itemLabel="Select Cost Covered By" itemValue=""
+											noSelectionOption="true" />
+										<f:selectItems value="#{addTravelBean.costCovered}" />
+									</h:selectOneMenu>
+									<p:message id="cost-coveredBy-msg" for="cost-coveredBy"
+										display="text" />
+
+									<h:outputText value="Scope Of Work:*" for="scope-of-work"></h:outputText>
+									<h:inputTextarea onblur="workScope()" id="scope-of-work"
+										rows="2" cols="30" autoResize="false"
+										value="#{addTravelBean.scopeWork}" required="true"
+										requiredMessage="Please Enter WorkScope" disabled="false" />
+									<p:message id="scope-of-work-msg" for="scope-of-work"
+										display="text" />
+
+									<h:outputLabel for="engagement-agreement"
+										value="Engagement Agreement &lt;br /&gt; Approval Status:*"
+										escape="false"></h:outputLabel>
+									<h:selectOneMenu onblur="engagementApproval()"
+										id="engagement-agreement"
+										value="#{addTravelBean.engagementAgreementString}"
+										styleClass="form-control" required="true"
+										requiredMessage="Please select Engagement Agreement">
+										<f:selectItem itemLabel="Select Engagement Agreement"
+											itemValue="" noSelectionOption="true" />
+										<f:selectItems value="#{addTravelBean.engagementAgreement}" />
+									</h:selectOneMenu>
+									<p:message id="engagement-agreement-msg"
+										for="engagement-agreement" display="text" />
+
+									<h:outputLabel for="project-level"
+										value="Project Level Approval Status:*"></h:outputLabel>
+									<h:selectOneMenu onblur="projectApproval()" id="project-level"
+										value="#{addTravelBean.projectLevelString}"
+										styleClass="form-control" required="true"
+										requiredMessage="Please select Project level Approval">
+										<f:selectItem itemLabel="Select Project Level Approval"
+											itemValue="" noSelectionOption="true" />
+										<f:selectItems value="#{addTravelBean.projectLevel}" />
+									</h:selectOneMenu>
+									<p:message id="project-level-msg" for="project-level"
+										display="text" />
+
+									<h:outputLabel for="location-head"
+										value="Location Head Approval Status:*"></h:outputLabel>
+									<h:selectOneMenu onblur="locationApproval()" id="location-head"
+										value="#{addTravelBean.locationHeadString}"
+										styleClass="form-control" required="true"
+										requiredMessage="Please select Location Head Approval">
+										<f:selectItem itemLabel="Select Location Head Approval"
+											itemValue="" noSelectionOption="true" />
+										<f:selectItems value="#{addTravelBean.locationHead}" />
+									</h:selectOneMenu>
+									<p:message id="location-head-msg" for="location-head"
+										display="text" />
+
+									<h:outputLabel for="ps-leader"
+										value="PS Leader Approval Status:*"></h:outputLabel>
+									<h:selectOneMenu onblur="psApproval()" id="ps-leader"
+										value="#{addTravelBean.psHeadString}"
+										styleClass="form-control" required="true"
+										requiredMessage="Please select PS lead Approval">
+										<f:selectItem itemLabel="Select PS Leader Approval"
+											itemValue="" noSelectionOption="true" />
+										<f:selectItems value="#{addTravelBean.psHead}" />
+									</h:selectOneMenu>
+									<p:message id="ps-leader-msg" for="ps-leader" display="text" />
+
+								</h:panelGrid>
+								<br></br>
+								<h:panelGrid columns="2" cellpadding="5">
+									<h:panelGroup layout="block" styleClass="offset-xs-10 col-xs-2">
+										<h:commandButton id="submit" styleClass="btn btn-success"
+											value="Submit" onclick="return getFlag()"
+											action="#{addTravelBean.submit()}"></h:commandButton>
+									</h:panelGroup>
+									<h:panelGroup layout="block" styleClass="offset-xs-10 col-xs-2">
+										<h:commandButton value="Reset " styleClass="btn btn-danger">
+											<p:ajax update="form" resetValues="true" />
+										</h:commandButton>
+									</h:panelGroup>
+								</h:panelGrid>
+								<p:dialog header="Send Mail" widgetVar="dlg2">
+									<h:panelGrid columns="3" cellpadding="5">
+										<h:outputLabel for="select-agency" value="Select Agency:*"></h:outputLabel>
+										<h:selectOneMenu id="select-agency"
+											value="#{addTravelBean.agency}" styleClass="form-control">
+											<f:selectItem itemLabel="Select Agency" itemValue=""
+												noSelectionOption="true" />
+											<f:selectItems value="#{addTravelBean.agencyList}" />
+										</h:selectOneMenu>
+										<p:messages id="dlg2Message" severity="info, fatal"></p:messages>
+									</h:panelGrid>
+									<h:panelGrid columns="2" cellpadding="5">
+										<h:panelGroup layout="block"
+											styleClass="offset-xs-10 col-xs-2">
+											<h:commandButton type="button" styleClass="btn btn-success"
+												value="Send Email">
+												<f:ajax event="click"
+													execute="select-agency traveller-text-input travel-destination expected-end-date expected-start-date"
+													render="valid-visa invalid-visa designation-text-input dlg2Message"
+													listener="#{addTravelBean.sendVisaEmail}"></f:ajax>
+											</h:commandButton>
+										</h:panelGroup>
+									</h:panelGrid>
+								</p:dialog>
+							</h:form>
+						</h:panelGroup>
+					</h:panelGroup>
+				</h:panelGroup>
+			</h:panelGroup>
+		</h:panelGroup>
+	</h:panelGroup>
+</h:body>
+</html>

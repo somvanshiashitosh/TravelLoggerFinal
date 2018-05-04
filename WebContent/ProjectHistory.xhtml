@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<script type="text/javascript">
+		history.pushState(null, null, location.href);
+		window.onpopstate = function() {
+			history.go(1);
+		};
+	</script>
+	<title>Project History</title>
+
+	<meta charset="utf-8" />
+	<meta name="viewport"
+		content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+	<meta http-equiv="x-ua-compatible" content="ie=edge" />
+
+	<!-- Bootstrap CSS -->
+	<h:outputStylesheet name="css/bootstrap/bootstrap.min.css" />
+	<h:outputStylesheet name="css/custom/resourcetracker.css" />
+	<h:outputStylesheet name="css/custom/travelLogger.css" />
+	<h:outputStylesheet name="fonts/css/font-awesome.min.css" />
+
+	<!-- jQuery first, then Tether, then Bootstrap JS. -->
+	<h:outputScript name="tether-1.3.3/dist/js/tether.min.js" />
+	<h:outputScript name="js/bootstrap/bootstrap.min.js" />
+</h:head>
+
+<h:body>
+
+	<ui:include src="/WEB-INF/header.xhtml" />
+	<ui:include src="/WEB-INF/footer.xhtml" />
+	<h:panelGroup layout="block" styleClass="container-fluid">
+		<h:panelGroup layout="block" styleClass="row">
+			<ui:include src="/WEB-INF/sidebar.xhtml" />
+			<h:panelGroup layout="block"
+				class="col-xs-10 col-sm-9 offset-md-2 col-md-10 main">
+				<h4>Project History</h4>
+				<h:panelGroup layout="block" class="row">
+					<h:panelGroup layout="block" class="col-md-12">
+						<h:form>
+							<p:dataTable emptyMessage="No Project Found" escape="false"
+								style="margin-bottom:100px; margin-right:100px"
+								scrollWidth="2500" id="projectTable" var="project"
+								value="#{projectHistoryBean.list}" scrollable="true">
+								<p:column headerText="Project Name"
+									filterBy="#{project.projectName}" filterMatchMode="contains">
+									<h:outputText value="#{project.projectName}" />
+								</p:column>
+								<p:column headerText="Project Code">
+									<h:outputText value="#{project.projectCode}" />
+								</p:column>
+								<p:column headerText="Project Country"
+									filterBy="#{project.projectCountry}" filterMatchMode="contains">
+									<h:outputText value="#{project.projectCountry}" />
+								</p:column>
+								<p:column headerText="Project Head"
+									filterBy="#{project.projectHead}" filterMatchMode="contains">
+									<h:outputText value="#{project.projectHead}" />
+								</p:column>
+								<p:column headerText="Project Head Email">
+									<h:outputText value="#{project.PHEmail}" />
+								</p:column>
+								<p:column headerText="Project Head Contact">
+									<h:outputText value="#{project.PHContact}" />
+								</p:column>
+								<p:column headerText="Location Head"
+									filterBy="#{project.locationHead}" filterMatchMode="contains">
+									<h:outputText value="#{project.locationHead}" />
+								</p:column>
+								<p:column headerText="Location Head Email">
+									<h:outputText value="#{project.LHEmail}" />
+								</p:column>
+								<p:column headerText="Location Head Contact">
+									<h:outputText value="#{project.LHContact}" />
+								</p:column>
+								<p:column headerText="Ps Head" filterBy="#{project.PSHead}"
+									filterMatchMode="contains">
+									<h:outputText value="#{project.PSHead}" />
+								</p:column>
+								<p:column headerText="Ps Head Email">
+									<h:outputText value="#{project.PSEmail}" />
+								</p:column>
+								<p:column headerText="Ps Head Contact">
+									<h:outputText value="#{project.PSContact}" />
+								</p:column>
+								<p:column headerText="Project Status">
+									<h:commandLink id="Status"
+										value="#{project.projectStatus == 'InProgress' ? 'Close Project' : 'Start Project'}"
+										style="#{project.projectStatus == 'InProgress' ? 'color: green' : 'color: blue'}">
+										<f:ajax event="click" execute="Status" render="Status"
+											listener="#{projectHistoryBean.toggleStatus}"></f:ajax>
+									</h:commandLink>
+								</p:column>
+							</p:dataTable>
+						</h:form>
+					</h:panelGroup>
+				</h:panelGroup>
+			</h:panelGroup>
+		</h:panelGroup>
+	</h:panelGroup>
+</h:body>
+</html>

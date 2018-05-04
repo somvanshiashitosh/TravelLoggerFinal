@@ -1,0 +1,64 @@
+.header {
+	background-color: #000;
+	padding: 5px 0;
+}
+.header h1 {	
+    text-align: center; 
+	color: #fff;	
+}
+.sub-header {
+	padding: 5px 5px 0 5px;
+	background-color: #aaa;
+	color: #fff;
+}
+.sidebar {
+	position:fixed;
+	top: 102px;
+	padding-top: 2rem;	
+	bottom: 0;
+	left: 0;
+	z-index: 1000;
+	display: block;
+	overflow-x: hidden;
+	overflow-y: auto;
+	background-color: #373a3c;
+}
+
+.main {
+	padding: 7em 40px 0 40px;
+}
+
+.login-content {
+	position: fixed;
+        top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	padding: 10em;	
+}
+
+.input-block {
+	background-color: #aaa;
+	color: #fff;
+}
+
+.list-group a {
+	color: #373a3c;
+	text-decoration: underline;
+}
+.list-group .list-group-item {
+	border: 0;
+	padding: 5px 0;
+}
+.footer {
+	background-color: #000;
+	padding: 5px;
+	text-align: center;
+	color: #fff;
+}
+.pull-right {
+	float: right;
+}
+.hide {
+	display: none;
+}

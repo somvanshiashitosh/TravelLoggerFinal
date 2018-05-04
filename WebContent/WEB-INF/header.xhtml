@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html">
+<h:head>
+	<script type="text/javascript">
+		history.pushState(null, null, location.href);
+		window.onpopstate = function() {
+			history.go(1);
+		};
+	</script>
+	<style>
+.moveToCenter {
+	margin-left: 650px;
+	margin-top: 150px
+}
+
+.moveButtonToCenter {
+	margin-left: 30px;
+}
+</style>
+</h:head>
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<h:panelGroup layout="block" styleClass="navbar-dark navbar-fixed-top">
+		<h:panelGroup layout="block" styleClass="row">
+			<h:panelGroup layout="block" styleClass="col-xs-12 col-md-12">
+				<h:panelGroup layout="block" styleClass="header">
+					<h:link outcome="landingPage.xhtml">
+						<h1>Travel Logger</h1>
+					</h:link>
+				</h:panelGroup>
+			</h:panelGroup>
+			<h:panelGroup layout="block" styleClass="col-xs-12 col-md-12">
+				<h:panelGroup layout="block" styleClass="sub-header">
+					<h:panelGroup layout="block" styleClass="row">
+						<h:panelGroup layout="block" styleClass="col-xs-6 col-md-6">
+							<h:outputText value="Welcome, #{headerBean.name}!" />
+						</h:panelGroup>
+						<h:form id="set">
+							<h:panelGroup styleClass="pull-right">
+								<p:commandButton icon="ui-icon-power" id="settings"
+									onclick="PF('cd').show()" value="Logout"></p:commandButton>
+								<p:confirmDialog message="Are you sure you want to logout"
+									header="Confirm" severity="alert" styleClass="moveToCenter"
+									widgetVar="cd">
+									<center>
+										<p:commandButton value="Yes" 
+											action="#{headerBean.logoutAction}"
+											oncomplete="PF('cd').hide()" />
+										<p:commandButton value="No" onclick="PF('cd').hide();"
+											type="button" />
+									</center>
+									
+								</p:confirmDialog>
+
+							</h:panelGroup>
+						</h:form>
+					</h:panelGroup>
+				</h:panelGroup>
+			</h:panelGroup>
+		</h:panelGroup>
+	</h:panelGroup>
+
+</ui:composition>
+</html>

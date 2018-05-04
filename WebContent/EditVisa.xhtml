@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>Visa Details</title>
+
+
+	<meta name="viewport"
+		content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+	<meta http-equiv="x-ua-compatible" content="ie=edge" />
+
+	<!-- Bootstrap CSS -->
+	<h:outputStylesheet name="css/bootstrap/bootstrap.min.css" />
+	<h:outputStylesheet name="css/custom/resourcetracker.css" />
+	<h:outputStylesheet name="css/custom/travelLogger.css" />
+	<h:outputStylesheet name="fonts/css/font-awesome.min.css" />
+
+	<!-- jQuery first, then Tether, then Bootstrap JS. -->
+	<h:outputScript name="tether-1.3.3/dist/js/tether.min.js" />
+	<h:outputScript name="js/bootstrap/bootstrap.min.js" />
+	<script src="resources/js/custom/editVisaValidation.js"></script>
+	<script type="text/javascript">
+		history.pushState(null, null, location.href);
+		window.onpopstate = function() {
+			history.go(1);
+		};
+	</script>
+</h:head>
+
+<h:body>
+
+	<ui:include src="/WEB-INF/header.xhtml" />
+	<ui:include src="/WEB-INF/footer.xhtml" />
+	<h:panelGroup layout="block" styleClass="container-fluid">
+		<h:panelGroup layout="block" styleClass="row">
+			<ui:include src="/WEB-INF/sidebar.xhtml" />
+			<h:panelGroup layout="block"
+				class="col-xs-10 col-sm-9 offset-md-2 col-md-10 main">
+				<h4>Edit Visa details</h4>
+				<h:panelGroup layout="block" class="row">
+					<h:panelGroup layout="block" class="col-md-12">
+						<h:form id="form">
+							<p:messages id="msgs" showDetail="true" sticky="false"
+								closeable="true" escape="false" severity="info, fatal"
+								display="text" />
+							<p:dataTable binding="#{rowin}" emptyMessage="No Visa Found"
+								style="margin-bottom:100px; margin-right:100px" id="visaTable"
+								var="userVisa" widgetVar="count" value="#{visaBean.usvisa}"
+								scrollable="true">
+								<p:column headerText="Country" filterBy="#{userVisa.country}"
+									filterMatchMode="contains">
+									<h:selectOneMenu id="country-ip"
+										onblur="country(#{rowin.rowIndex})"
+										value="#{userVisa.country}" styleClass="form-control">
+										<f:selectItem itemLabel="Select Country" itemValue=""
+											noSelectionOption="true" />
+										<f:selectItems value="#{visaBean.countryList}" />
+									</h:selectOneMenu>
+									<p:message id="country-ip-msg" for="country-ip" display="text"></p:message>
+								</p:column>
+								<p:column headerText="Issued Date(dd/MM/yyyy)"
+									filterBy="#{userVisa.issueDate}" filterMatchMode="contains">
+									<p:calendar converterMessage="Invalid Date OR Format" styleClass="calendar-input"
+										pattern="dd/MM/yyyy" id="issuedate-ip"
+										onblur="IssuedDate(#{rowin.rowIndex})"
+										value="#{userVisa.issueDate}" yearRange="c-100:c+50"
+										navigator="true">
+										<f:convertDateTime pattern="dd/MM/yyyy" type="both" />
+										<f:ajax event="dateSelect"
+											onevent="IssuedDate(#{rowin.rowIndex})"></f:ajax>
+									</p:calendar>
+									<p:message id="issuedate-ip-msg" for="issuedate-ip"
+										display="text"></p:message>
+								</p:column>
+								<p:column headerText="Expiry Date(dd/MM/yyyy)"
+									filterBy="#{userVisa.expiryDate}" filterMatchMode="contains">
+									<p:calendar id="expirydate-ip" converterMessage="Invalid Date OR Format"
+										styleClass="calendar-input" yearRange="c-100:c+50"
+										pattern="dd/MM/yyyy" navigator="true"
+										onblur="ExpiryDate(#{rowin.rowIndex})"
+										value="#{userVisa.expiryDate}">
+										<f:convertDateTime pattern="dd/MM/yyyy" type="both" />
+										<f:ajax event="dateSelect"
+											onevent="ExpiryDate(#{rowin.rowIndex})"></f:ajax>
+									</p:calendar>
+									<p:message id="expirydate-ip-msg" for="expirydate-ip"
+										display="text"></p:message>
+
+								</p:column>
+								<p:column headerText="Action To Perform">
+									<center>
+
+										<p:commandButton value="Update"
+											actionListener="#{visaBean.updateAction}" style="color:blue"
+											onclick="return globalCheck(#{rowin.rowIndex})">
+										</p:commandButton>
+
+										<p:commandButton value="Delete" style="color:red;margin:7px"
+											actionListener="#{visaBean.deleteAction}"
+											onclick="return globalDelCheck(#{rowin.rowIndex})" />
+
+									</center>
+								</p:column>
+							</p:dataTable>
+						</h:form>
+					</h:panelGroup>
+				</h:panelGroup>
+			</h:panelGroup>
+		</h:panelGroup>
+	</h:panelGroup>
+</h:body>
+</html>

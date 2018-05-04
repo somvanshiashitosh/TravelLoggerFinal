@@ -1,0 +1,303 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+
+
+<h:head>
+
+
+	<title>Edit</title>
+
+
+	<meta charset="utf-8" />
+	<meta name="viewport"
+		content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+	<meta http-equiv="x-ua-compatible" content="ie=edge" />
+
+	<!-- Bootstrap CSS -->
+
+
+
+
+	<!-- jQuery first, then Tether, then Bootstrap JS. -->
+	<!--  <h:outputScript name="js/jquery/jquery-3.1.1.min.js"/> -->
+	<h:outputScript name="tether-1.3.3/dist/js/tether.min.js" />
+	<h:outputScript name="js/bootstrap/bootstrap.min.js" />
+	<script src="resources/js/custom/travellerValidation.js"></script>
+	<script type="text/javascript">
+		history.pushState(null, null, location.href);
+		window.onpopstate = function() {
+			history.go(1);
+		};
+	</script>
+</h:head>
+
+<h:body>
+	<ui:include src="/WEB-INF/header.xhtml" />
+	<ui:include src="/WEB-INF/footer.xhtml" />
+	<ui:include src="/WEB-INF/sidebar.xhtml" />
+
+
+	<!-- Required meta tags always come first -->
+	<h:outputStylesheet name="css/bootstrap/bootstrap.min.css" />
+	<h:outputStylesheet name="css/custom/resourcetracker.css" />
+	<h:outputStylesheet name="fonts/css/font-awesome.min.css" />
+	<h:outputStylesheet
+		name="fonts/bootstrap/css/bootstrap.icon-large.min.css" />
+
+	<h:panelGroup layout="block" styleClass="container-fluid">
+		<h:panelGroup layout="block" styleClass="row">
+			<h:panelGroup layout="block" styleClass="offset-xs-2 col-xs-10 main">
+				<h3>Edit Profile</h3>
+				<h:panelGroup layout="block" styleClass="row form-group">
+					<h:panelGroup layout="block" styleClass="col-xs-8">
+						<h:panelGroup layout="block" styleClass="card card-block">
+							<h:form id="form">
+								<p:messages id="growl" showDetail="true" sticky="false"
+									globalOnly="true" closeable="true" escape="false"
+									severity="info, fatal" />
+								<h:panelGrid id="gridy" columns="3" cellpadding="5">
+
+									<h:outputLabel for="inputid" value="Oracle ID:*"></h:outputLabel>
+									<p:inputText styleClass="form-control noShdow" readonly="true"
+										value="#{editTraveller.user.oracleId}" id="inputid"
+										label="OracleID ">
+									</p:inputText>
+									<p:message for="inputid" />
+
+									<h:outputLabel for="firstname" value=" First Name:*"></h:outputLabel>
+									<p:inputText
+										onblur="globalScope(this.id,'form:firstname-msg','name',true)"
+										styleClass="form-control noShdow"
+										value="#{editTraveller.user.firstName}" required="true"
+										requiredMessage="Please Enter First Name.." id="firstname"
+										label="First Name " />
+									<p:message id="firstname-msg" for="firstname" />
+
+									<h:outputLabel for="midname" value="Middle Name:"></h:outputLabel>
+									<p:inputText
+										onblur="globalScope(this.id,'form:midname-msg','name',false)"
+										styleClass="form-control noShdow"
+										value="#{editTraveller.user.middleName}" id="midname"
+										label="Mid Name" />
+									<p:message id="midname-msg" for="midname" />
+
+									<h:outputLabel value="Last Name:*" />
+									<p:inputText styleClass="form-control noShdow"
+										onblur="globalScope(this.id,'form:lastname-msg','name',true)"
+										value="#{editTraveller.user.lastName}" required="true"
+										requiredMessage="Please Enter LastName.." id="lastname"
+										label="First Name " />
+									<p:message id="lastname-msg" for="lastname" />
+
+									<h:outputLabel for="dobinput" value="DOB(dd-mm-yyyy):*"></h:outputLabel>
+									<p:calendar id="dobinput" styleClass="calendar-input"
+										value="#{editTraveller.user.dateOfBirth}" locale="en"
+										navigator="true" yearRange="c-100:c+50"
+										onchange="globalScope(this.id,'form:dobinput-msg','Bdate',true)"
+										pattern="dd/MM/yyyy" converterMessage="Invalid Date OR Format">
+										<f:convertDateTime pattern="dd/MM/yyyy" type="both" />
+										<f:ajax event="dateSelect"
+											onevent="globalScope(this.id+'_input','form:dobinput-msg','Bdate',true)"></f:ajax>
+									</p:calendar>
+									<p:message id="dobinput-msg" for="dobinput" display="text" />
+
+									<h:outputLabel for="dojinput" value="DOJ(dd-mm-yyyy):* "></h:outputLabel>
+									<p:calendar id="dojinput" styleClass="calendar-input"
+										value="#{editTraveller.user.dateOfJoining}" locale="en"
+										converterMessage="Invalid Date OR Format" navigator="true"
+										onchange="globalScope(this.id,'form:dojinput-msg','Bdate',true)"
+										pattern="dd/MM/yyyy" yearRange="c-100:c+50">
+										<f:convertDateTime pattern="dd/MM/yyyy" type="both"
+											display="text" />
+										<f:ajax event="dateSelect"
+											onevent="globalScope(this.id+'_input','form:dojinput-msg','Bdate',true)"></f:ajax>
+									</p:calendar>
+									<p:message id="dojinput-msg" for="dojinput" display="text" />
+
+									<h:outputLabel for="designation" value="Designation:*"></h:outputLabel>
+									<h:selectOneMenu id="designation"
+										onblur="globalScope(this.id,'form:designation-msg','dropDown',true)"
+										value="#{editTraveller.user.designation}"
+										styleClass="form-control">
+										<f:selectItem itemLabel="Select Designation" itemValue=""
+											noSelectionOption="true" />
+										<f:selectItems
+											value="#{editTraveller.dropdowndata.designationList}" />
+									</h:selectOneMenu>
+									<p:message id="designation-msg" for="designation" />
+
+									<h:outputLabel for="address" value="Address:*"></h:outputLabel>
+									<p:inputTextarea rows="3" cols="33" id="address"
+										onblur="globalScope(this.id,'form:address-msg','nothing',true)"
+										styleClass="form-control noShdow"
+										value="#{editTraveller.user.address}" maxlength="256" />
+									<p:message id="address-msg" for="address" />
+
+									<h:outputLabel for="emailinput" value="Email address:*"></h:outputLabel>
+									<h:inputText
+										onblur="globalScope(this.id,'form:emailinput-msg','email',true)"
+										id="emailinput" value="#{editTraveller.user.emailId}"
+										label="Email" styleClass="form-control noShdow">
+									</h:inputText>
+									<p:message id="emailinput-msg" for="emailinput" />
+
+									<h:outputLabel for="telinput" value="Mobile Number:* (+91)"></h:outputLabel>
+									<p:inputText styleClass="form-control noShdow"
+										onblur="globalScope(this.id,'form:telinput-msg','contact',true)"
+										value="#{editTraveller.user.contactNo}" id="telinput"
+										label="Mobile Number: ">
+									</p:inputText>
+									<p:message id="telinput-msg" for="telinput" />
+
+									<h:outputLabel for="food" value="Food Prefrence:*"></h:outputLabel>
+									<h:selectOneMenu id="food"
+										onblur="globalScope(this.id,'form:food-msg','dropDown',true)"
+										value="#{editTraveller.user.foodChoice}"
+										styleClass="form-control">
+										<f:selectItem itemLabel="Select" itemValue=""
+											noSelectionOption="true" />
+										<f:selectItems value="#{editTraveller.dropdowndata.foodList}" />
+									</h:selectOneMenu>
+									<p:message id="food-msg" for="food" />
+
+									<h:outputLabel for="passportno" value="Passport No:"></h:outputLabel>
+									<p:inputText styleClass="form-control noShdow"
+										value="#{editTraveller.user.passportNo}" id="passportno"
+										label="passport Number: "
+										onblur="globalScope(this.id,'form:passportno-msg','alphanumeric',false)" />
+									<p:message id="passportno-msg" for="passportno" />
+
+									<h:outputLabel for="passissue" value="Passport issue date:"></h:outputLabel>
+									<p:calendar id="passissue"
+										value="#{editTraveller.user.issueDate}" locale="en"
+										navigator="true" pattern="dd/MM/yyyy"
+										converterMessage="Invalid Date OR Format"
+										yearRange="c-100:c+50"
+										onchange="globalScope(this.id,'form:passissue-msg','Idate',false)"
+										styleClass="calendar-input">
+										<f:convertDateTime pattern="dd/MM/yyyy" type="both" />
+										<f:ajax event="dateSelect"
+											onevent="globalScope(this.id+'_input','form:passissue-msg','Idate',false)"></f:ajax>
+									</p:calendar>
+									<p:message id="passissue-msg" display="text" for="passissue" />
+
+									<h:outputLabel for="passexpiry" value="Passport expiry date:"></h:outputLabel>
+									<p:calendar id="passexpiry"
+										value="#{editTraveller.user.expiryDate}"
+										converterMessage="Invalid Date OR Format" locale="en"
+										navigator="true" pattern="dd/MM/yyyy" yearRange="c-100:c+50"
+										onchange="globalScope(this.id,'form:passexpiry-msg','Edate',false)"
+										styleClass="calendar-input">
+										<f:convertDateTime pattern="dd/MM/yyyy" type="both" />
+										<f:ajax event="dateSelect"
+											onevent="globalScope(this.id+'_input','form:passexpiry-msg','Edate',false)"></f:ajax>
+									</p:calendar>
+									<p:message id="passexpiry-msg" display="text" for="passexpiry" />
+
+									<h:outputLabel for="placeofissue" value=" Place of Issue:"></h:outputLabel>
+									<p:inputText styleClass="form-control noShdow"
+										value="#{editTraveller.user.placeOfIssue}" id="placeofissue"
+										label="Place Issue "
+										onblur="globalScope(this.id,'form:placeofissue-msg','name',false)" />
+									<p:message id="placeofissue-msg" for="placeofissue" />
+
+
+									<h:outputLabel for="firstnom" value=" Nominee:"></h:outputLabel>
+									<p:inputText styleClass="form-control noShdow"
+										onblur="globalScope(this.id,'form:firstnom-msg','name',false)"
+										value="#{editTraveller.user.firstNomineeName}" id="firstnom"
+										label="First Nominee " />
+									<p:message id="firstnom-msg" for="firstnom" display="text" />
+
+
+									<h:outputLabel for="firstnomcon" value=" Contact Number:"></h:outputLabel>
+									<p:inputText styleClass="form-control noShdow"
+										onblur="globalScope(this.id,'form:firstnomcon-msg','contact',false)"
+										value="#{editTraveller.user.firstNomineeContact}"
+										id="firstnomcon" label="First Nominee Contact " />
+									<p:message id="firstnomcon-msg" for="firstnomcon"
+										display="text" />
+
+									<h:outputLabel for="firstnomrel" value=" Relation:"></h:outputLabel>
+									<p:inputText styleClass="form-control noShdow"
+										onblur="globalScope(this.id,'form:firstnomrel-msg','relation',false)"
+										value="#{editTraveller.user.firstNomineeRelation}"
+										id="firstnomrel" label="Relation With First Nominee" />
+									<p:message id="firstnomrel-msg" for="firstnomrel"
+										display="text" />
+
+									<p:commandLink id="link-passport" value="To View Passport Copy"
+										actionListener="#{editTraveller.toEnableDailog()}"></p:commandLink>
+									<p:dialog id="dailog-passport" height="515px" width="50%"
+										header="Passport Copy" widgetVar="pc">
+										<p:messages id="passportFile-msg" autoUpdate="true"
+											severity="info, error" />
+										<h:panelGroup id="passGroup">
+											<p:media id="passport-copy" player="quicktime"
+												value="#{editTraveller.passportLinkToDailog}" width="600"
+												height="400">
+											</p:media>
+										</h:panelGroup>
+										<h:outputLabel for="passportFile"
+											value="To Change Passport Copy:" />
+										<p:fileUpload id="passportFile" fileLimit="1"
+											fileLimitMessage="Only One File Can Upload"
+											value="#{editTraveller.passportCopy}"
+											allowTypes="/(\.|\/)(jpeg|pdf|png|jpg)$/" mode="advanced"
+											fileUploadListener="#{editTraveller.uploadPassportPdf}"
+											update="passGroup passport-copy passportFile-msg"
+											multiple="false" skinSimple="true" description="passport" />
+									</p:dialog>
+
+								</h:panelGrid>
+
+
+								<h:panelGroup layout="block" styleClass="col-xs-4">
+									<h:panelGroup layout="block" styleClass="row">
+
+
+									</h:panelGroup>
+								</h:panelGroup>
+								<h:panelGroup layout="block" styleClass="col-xs-4">
+									<h:panelGroup layout="block" styleClass="row">
+										<h:panelGroup layout="block" styleClass="col-xs-5">
+											<h:panelGrid columns="3">
+												<h:commandButton value="Submit" id="submitbtn"
+													action='#{editTraveller.submitRegAction}'
+													styleClass="btn btn-success" update="gridy"
+													validateClient="true" ajax="false"
+													onclick="return globalScope(this.id,'form:growl','globalCheck')" />
+												<p:blockUI trigger="submitbtn" />
+												<h:button value="Cancel" outcome="/landingPage.xhtml"
+													styleClass="btn" />
+											</h:panelGrid>
+										</h:panelGroup>
+									</h:panelGroup>
+								</h:panelGroup>
+							</h:form>
+						</h:panelGroup>
+					</h:panelGroup>
+				</h:panelGroup>
+			</h:panelGroup>
+		</h:panelGroup>
+	</h:panelGroup>
+
+
+	<h:panelGroup layout="block">
+		<div class="navbar-fixed-bottom">
+			<div class="row">
+				<div class="col-xs-12">
+					<div class="footer">Copyright @ Diebold Nixdorf 2017</div>
+				</div>
+			</div>
+		</div>
+	</h:panelGroup>
+</h:body>
+
+</html>

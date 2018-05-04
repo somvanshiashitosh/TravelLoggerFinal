@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<faces-config xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd"
+	version="2.2">
+
+	
+	<navigation-rule>
+		<from-view-id>/login.xhtml</from-view-id>
+		<navigation-case>
+			<from-action>#{loginBean.loginAction}</from-action>
+			<from-outcome>Success</from-outcome>
+			<to-view-id>/landingPage.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+
+	<navigation-rule>
+		<from-view-id>/header.xhtml</from-view-id>
+		<navigation-case>
+			<from-action>#{headerBean.logoutAction}</from-action>
+			<from-outcome>Success</from-outcome>
+			<to-view-id>/login.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+
+	<navigation-rule>
+		<from-view-id>/addTravel.xhtml</from-view-id>
+		<navigation-case>
+			<from-action>#{addTravelBean.applyForVisa}</from-action>
+			<from-outcome>Success</from-outcome>
+			<to-view-id>/visaApply.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+
+	<navigation-rule>
+		<from-view-id>/addTravel.xhtml</from-view-id>
+		<navigation-case>
+			<from-action>#{addTravelBean.registerUser}</from-action>
+			<from-outcome>register</from-outcome>
+			<to-view-id>/linkUser.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+
+	<navigation-rule>
+		<from-view-id>/addtravelagency.xhtml</from-view-id>
+		<navigation-case>
+			<from-action>#{travelBean.clickSubmit}</from-action>
+			<from-outcome>Success</from-outcome>
+			<to-view-id>/addtravelagency.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+
+</faces-config>

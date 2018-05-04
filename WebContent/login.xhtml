@@ -1,0 +1,145 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+
+
+<h:head>
+	<title>Login</title>
+
+
+	<meta name="viewport"
+		content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+	<meta http-equiv="x-ua-compatible" content="ie=edge" />
+
+	<!-- Bootstrap CSS -->
+
+
+
+	<h:outputStylesheet name="css/bootstrap/bootstrap.min.css" />
+	<h:outputStylesheet name="css/custom/resourcetracker.css" />
+	<h:outputStylesheet name="fonts/css/font-awesome.min.css" />
+	<!-- jQuery first, then Tether, then Bootstrap JS. -->
+	<h:outputScript name="js/jquery/jquery-3.1.1.min.js" />
+	<h:outputScript name="tether-1.3.3/dist/js/tether.min.js" />
+	<h:outputScript name="js/bootstrap/bootstrap.min.js" />
+	<script type="text/javascript">
+		history.pushState(null, null, location.href);
+		window.onpopstate = function() {
+			history.go(1);
+		};
+	</script>
+
+</h:head>
+
+<h:body>
+
+
+	<!-- Required meta tags always come first -->
+
+
+
+	<h:panelGroup layout="block" styleClass="navbar-dark navbar-fixed-top">
+		<h:panelGroup layout="block" styleClass="row">
+			<h:panelGroup layout="block" styleClass="col-xs-12 col-md-12">
+				<h:panelGroup layout="block" styleClass="header">
+					<h1>Travel Logger</h1>
+				</h:panelGroup>
+			</h:panelGroup>
+		</h:panelGroup>
+	</h:panelGroup>
+
+	<h:panelGroup layout="block"
+		styleClass="container-fluid bg-inverse login-content">
+		<h:panelGroup layout="block" styleClass="row">
+			<!-- <h:panelGroup layout="block"
+				styleClass="offset-xs-3 col-xs-6 offset-sm-3 col-sm-6">
+				<h4>Login</h4>
+			</h:panelGroup> -->
+			<h:panelGroup layout="block"
+				styleClass="offset-sm-3 col-sm-8 offset-md-3 col-md-5">
+				<h:panelGroup layout="block"
+					styleClass="card card-block input-block">
+					<h:form>
+						<p:messages id="growl" showDetail="true" sticky="false"
+							severity="info, fatal" />
+						<!-- Oracle ID -->
+						<h:panelGroup layout="block" styleClass="form-group row">
+							<h:outputText layout="block" for="oracleID"
+								styleClass="col-xs-3 col-sm-3 col-form-label" value="OracleID*" />
+							<h:panelGroup layout="block" styleClass="col-xs-9 col-sm-9">
+								<p:inputText id="oracleID" maxlength="6"
+									value="#{loginBean.oracleID}" required="true"
+									requiredMessage="Please Enter Oracle Id.."
+									onkeypress="if(event.which &lt; 48 || event.which &gt; 57) return false;"
+									label="OracleID">
+									<f:validator validatorId="onlyNumbers"></f:validator>
+									<p:ajax event="blur" update="oracleID-msg"></p:ajax>
+								</p:inputText>
+								<p:message id="oracleID-msg" for="oracleID"
+									severity="info, error, fatal" display="text"></p:message>
+							</h:panelGroup>
+						</h:panelGroup>
+						<!-- Password -->
+						<h:panelGroup layout="block" styleClass="form-group row">
+							<h:outputText layout="block" for="password"
+								styleClass="col-xs-3 col-sm-3 col-form-label" value="Password*" />
+							<h:panelGroup layout="block" styleClass="col-xs-9 col-sm-9">
+								<p:password id="password" styleClass=""
+									requiredMessage="Please Enter Password"
+									value="#{loginBean.password}" required="true" label="Password">
+									<p:ajax event="blur" update="password-msg"></p:ajax>
+								</p:password>
+								<p:message id="password-msg" for="password"
+									severity="info, error, fatal" display="text"></p:message>
+
+							</h:panelGroup>
+						</h:panelGroup>
+						<!-- Login Button -->
+						<h:panelGroup layout="block" styleClass="form-group row">
+							<h:panelGroup layout="block" styleClass="offset-xs-4 col-xs-2">
+								<p:commandButton id="loginBtn" value="Login"
+									icon="ui-icon-check" styleClass="btn btn-default"
+									style="margin:0" action="#{loginBean.loginAction}"
+									update="growl" validateClient="true" ajax="false" />
+							</h:panelGroup>
+						</h:panelGroup>
+						<h:panelGroup layout="block" styleClass="form-group row">
+							<h:panelGroup layout="block" styleClass="col-xs-6">
+								<h:link outcome="forgotPassword.xhtml" value="Forgot Password" />
+							</h:panelGroup>
+							<h:panelGroup layout="block" styleClass="col-xs-6">
+								<h:panelGroup layout="block" styleClass="pull-right">
+									<h:link outcome="registration.xhtml"
+										value="New User ? Sign Up!" />
+								</h:panelGroup>
+							</h:panelGroup>
+						</h:panelGroup>
+					</h:form>
+				</h:panelGroup>
+			</h:panelGroup>
+
+		</h:panelGroup>
+	</h:panelGroup>
+
+	<h:panelGroup layout="block" class="navbar-fixed-bottom">
+		<h:panelGroup layout="block" class="row">
+			<h:panelGroup layout="block" class="col-xs-12 col-md-12">
+				<h:panelGroup layout="block" class="footer">
+							Copyright @ Diebold Nixdorf 2017
+						</h:panelGroup>
+			</h:panelGroup>
+		</h:panelGroup>
+	</h:panelGroup>
+
+
+
+
+</h:body>
+
+</html>

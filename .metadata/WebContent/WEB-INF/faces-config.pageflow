@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pageflow:Pageflow xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pageflow="http://www.sybase.com/suade/pageflow" id="pf15211092012690" configfile="/Travel Logger/WebContent/WEB-INF/faces-config.xml">
+  <nodes xsi:type="pageflow:PFPage" name="login.xhtml" x="338" y="946" id="pf15211092136301" referenceLink="//@navigationRule.1/@navigationCase.0/@toViewId|" outlinks="pf152180873579613" inlinks="pf15218085349831" path="/login.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="landing.xhtml" x="122" y="178" id="pf15211092136303" referenceLink="//@navigationRule.0/@navigationCase.0/@toViewId|" path="/login.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="forgotPassword.xhtml" x="122" y="562" id="pf15211839457594" referenceLink="//@navigationRule.1/@fromViewId|" path="/forgotPassword.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="header.xhtml" x="122" y="946" id="pf15218085349833" referenceLink="//@navigationRule.1/@fromViewId|" outlinks="pf15218085349831" path="/header.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="addTravel.xhtml" id="pf15218085349834" referenceLink="//@navigationRule.3/@fromViewId|" outlinks="pf15218085349835 pf15218085349836" path="/addTravel.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="visaApply.xhtml" id="pf15218085349837" referenceLink="//@navigationRule.2/@navigationCase.0/@toViewId|" inlinks="pf15218085349835" path="/visaApply.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="linkUser.xhtml" id="pf15218085349838" referenceLink="//@navigationRule.3/@navigationCase.0/@toViewId|" inlinks="pf15218085349836" path="/linkUser.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="addtravelagency.xhtml" id="pf15218085349839" referenceLink="//@navigationRule.4/@navigationCase.0/@toViewId|" outlinks="pf152180853498310" inlinks="pf152180853498310" path="/addtravelagency.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="landingPage.xhtml" id="pf152180873579614" referenceLink="//@navigationRule.0/@navigationCase.0/@toViewId|" inlinks="pf152180873579613" path="/landingPage.xhtml"/>
+  <links id="pf15218085349831" target="pf15211092136301" source="pf15218085349833" outcome="Success" fromaction="#{headerBean.logoutAction}"/>
+  <links id="pf15218085349835" target="pf15218085349837" source="pf15218085349834" outcome="Success" fromaction="#{addTravelBean.applyForVisa}"/>
+  <links id="pf15218085349836" target="pf15218085349838" source="pf15218085349834" outcome="register" fromaction="#{addTravelBean.registerUser}"/>
+  <links id="pf152180853498310" target="pf15218085349839" source="pf15218085349839" outcome="Success" fromaction="#{travelBean.clickSubmit}"/>
+  <links id="pf152180873579613" target="pf152180873579614" source="pf15211092136301" outcome="Success" fromaction="#{loginBean.loginAction}"/>
+</pageflow:Pageflow>

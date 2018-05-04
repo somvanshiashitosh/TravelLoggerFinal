@@ -1,0 +1,531 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+
+
+<h:head>
+
+	<title>Registration</title>
+
+
+	<meta charset="utf-8" />
+	<meta name="viewport"
+		content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+	<meta http-equiv="x-ua-compatible" content="ie=edge" />
+
+	<!-- Bootstrap CSS -->
+	<style>
+.shiftRightVisa {
+	margin-right: 105px;
+}
+
+.shiftRightBasicDetails {
+	margin-right: 110px;
+}
+
+.shiftRightPassportPdf {
+	margin-right: 85px;
+}
+
+.shiftRightPassword {
+	margin-right: 85px;
+}
+
+.shiftRightNominee {
+	margin-right: 52px;
+}
+
+.shiftRightPassport {
+	margin-right: 75px;
+}
+
+.centerAll {
+	margin-left: 16rem;
+}
+</style>
+
+
+
+	<!-- jQuery first, then Tether, then Bootstrap JS. -->
+	<!--  <h:outputScript name="js/jquery/jquery-3.1.1.min.js"/> -->
+	<h:outputScript name="tether-1.3.3/dist/js/tether.min.js" />
+	<h:outputScript name="js/bootstrap/bootstrap.min.js" />
+	<script src="resources/js/custom/registration.js"></script>
+	<script type="text/javascript">
+		history.pushState(null, null, location.href);
+		window.onpopstate = function() {
+			history.go(1);
+		};
+	</script>
+
+
+</h:head>
+
+<h:body>
+
+
+	<!-- Required meta tags always come first -->
+	<h:outputStylesheet name="css/bootstrap/bootstrap.min.css" />
+	<h:outputStylesheet name="css/custom/resourcetracker.css" />
+	<h:outputStylesheet name="fonts/css/font-awesome.min.css" />
+
+
+	<h:panelGroup layout="block" styleClass="navbar-dark navbar-fixed-top">
+		<h:panelGroup layout="block" styleClass="row">
+			<h:panelGroup layout="block" styleClass="col-xs-12 col-md-12">
+				<h:panelGroup layout="block" styleClass="header">
+					<h1>Travel Logger</h1>
+				</h:panelGroup>
+			</h:panelGroup>
+			<div class="col-xs-12">
+				<div class="sub-header">
+					<h4 class="register-header">Register Here</h4>
+				</div>
+			</div>
+		</h:panelGroup>
+	</h:panelGroup>
+
+	<h:outputStylesheet name="css/bootstrap/bootstrap.min.css" />
+	<h:outputStylesheet name="css/custom/resourcetracker.css" />
+	<h:outputStylesheet name="fonts/css/font-awesome.min.css" />
+	<h:outputStylesheet
+		name="fonts/bootstrap/css/bootstrap.icon-large.min.css" />
+	<h:form id="form" enctype="multipart/form-data">
+		<h:panelGroup id="mainForm" layout="block" style="align:center"
+			styleClass="container-fluid registration-main">
+			<h:panelGroup layout="block" styleClass="row form-group">
+				<h:panelGroup layout="block" styleClass="col-xs-8 centerAll">
+					<h:panelGroup layout="block" styleClass="card card-block">
+
+						<p:messages id="growl" globalOnly="false" showDetail="true"
+							sticky="false" closeable="true" escape="false"
+							severity="info, fatal" />
+						<p:accordionPanel id="panel" activeIndex="0">
+							<p:tab title="Basic Details:-"
+								titleStyle="font-weight:bold; font-size:20px">
+
+
+								<h:panelGrid id="gridy" columns="3" cellpadding="5">
+
+									<h:outputLabel for="inputid" value="Oracle ID:*"></h:outputLabel>
+									<p:inputText styleClass="form-control noShdow"
+										onkeypress="if(event.which &lt; 48 || event.which &gt; 57) return false;"
+										value="#{registerBean.user.oracleId}" maxlength="6"
+										required="true" binding="#{registerBean.uicomp.oracleidUI}"
+										requiredMessage="Please Enter Oracle Id" id="inputid"
+										label="OracleID">
+										<f:validator validatorId="onlyNumbers"></f:validator>
+										<p:ajax event="blur"
+											listener="#{registerBean.checkOracleIdInDatabase()}"
+											process="inputid" update="inputid-msg" />
+									</p:inputText>
+									<p:message display="text" severity="info, error, fatal"
+										showSummary="false" id="inputid-msg" for="inputid" />
+
+
+
+									<h:outputLabel for="firstname" value=" First Name:*"></h:outputLabel>
+									<p:inputText styleClass="form-control noShdow"
+										value="#{registerBean.user.firstName}" required="true"
+										requiredMessage="Please Enter Name" maxlength="30"
+										id="firstname" label="First Name ">
+										<f:validator validatorId="nameValidator"></f:validator>
+										<p:ajax event="blur" update="firstname-msg" />
+									</p:inputText>
+									<p:message display="text" id="firstname-msg" for="firstname" />
+
+
+
+									<h:outputLabel for="midname" value="Middle Name:"></h:outputLabel>
+									<p:inputText styleClass="form-control noShdow"
+										value="#{registerBean.user.middleName}" maxlength="30"
+										id="midname" label="Middle Name ">
+										<p:ajax event="blur" update="midname-msg" />
+										<f:validator validatorId="nameValidator"></f:validator>
+									</p:inputText>
+									<p:message for="midname" id="midname-msg" display="text" />
+
+
+									<h:outputLabel value="Last Name:*" />
+									<p:inputText styleClass="form-control noShdow"
+										value="#{registerBean.user.lastName}" maxlength="30"
+										required="true" requiredMessage="Please Enter LastName"
+										id="lastname" label="Last Name ">
+										<p:ajax event="blur" update="lastname-msg" />
+										<f:validator validatorId="nameValidator"></f:validator>
+									</p:inputText>
+									<p:message id="lastname-msg" for="lastname" display="text" />
+
+
+
+									<h:outputLabel for="dobinput" value="Date Of Birth(dd/mm/yyyy):*"></h:outputLabel>
+									<p:calendar id="dobinput" styleClass="calendar-input"
+										value="#{registerBean.user.dateOfBirth}" required="true"
+										binding="#{registerBean.uicomp.dobUI}" yearRange="c-100:c+50"
+										requiredMessage="Please Select Date"
+										onblur="validateDateFormat(this.id,'form:panel:dobinput-msg')"
+										converterMessage="Invalid Date OR Format" navigator="true"
+										pattern="dd/MM/yyyy">
+										<f:convertDateTime pattern="dd/MM/yyyy" type="both" />
+										<p:ajax event="dateSelect"
+											listener="#{registerBean.expectedJoiningDateValidation('dobinput-msg')}"
+											update="dobinput-msg" />
+									</p:calendar>
+									<p:message display="text" severity="info, error ,fatal"
+										id="dobinput-msg" for="dobinput" />
+
+
+									<h:outputLabel for="dojinput" value="Date Of Joining(dd/mm/yyyy):*"></h:outputLabel>
+									<p:calendar id="dojinput" required="true"
+										requiredMessage="Please Select Date"
+										widgetVar="calendarWidget"
+										converterMessage="Invalid Date OR Format"
+										binding="#{registerBean.uicomp.dojUI}"
+										onblur="validateDateFormat(this.id,'form:panel:dojinput-msg')"
+										styleClass="calendar-input"
+										value="#{registerBean.user.dateOfJoining}" navigator="true"
+										pattern="dd/MM/yyyy" yearRange="c-100:c+50">
+										<f:convertDateTime pattern="dd/MM/yyyy" type="both" />
+										<p:ajax event="dateSelect"
+											listener="#{registerBean.expectedJoiningDateValidation('dojinput-msg')}"
+											update="dojinput-msg" />
+									</p:calendar>
+									<p:message display="text" severity="info, error, fatal"
+										id="dojinput-msg" for="dojinput" />
+
+
+
+									<h:outputLabel for="designation" value="Designation:*"></h:outputLabel>
+									<h:selectOneMenu id="designation"
+										value="#{registerBean.user.designation}"
+										styleClass="form-control noShdow" required="true"
+										requiredMessage="Please Select Designation">
+										<f:selectItem itemLabel="Select Designation" itemValue=""
+											noSelectionOption="true" />
+										<f:selectItems
+											value="#{registerBean.dropdownData.designationList}" />
+										<p:ajax event="blur" update="designation-msg" />
+									</h:selectOneMenu>
+									<p:message id="designation-msg" for="designation"
+										display="text" />
+
+
+
+									<h:outputLabel for="address" value="Address:*"></h:outputLabel>
+									<p:inputTextarea rows="3" cols="33" id="address"
+										styleClass="form-control noShdow" maxlength="256"
+										value="#{registerBean.user.address}" required="true"
+										requiredMessage="Please Enter Address">
+										<f:validator validatorId="addressValidator"></f:validator>
+										<p:ajax event="blur" update="address-msg" />
+									</p:inputTextarea>
+									<p:message id="address-msg" for="address" display="text" />
+
+
+
+									<h:outputLabel for="emailinput" value="Email address:*"></h:outputLabel>
+									<h:inputText id="emailinput"
+										value="#{registerBean.user.emailId}" required="true"
+										requiredMessage="Please Enter Email Id" label="Email"
+										validatorMessage="Invalid EmailId"
+										styleClass="form-control noShdow">
+										<f:validateRegex
+											pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" />
+										<p:ajax event="blur" update="emailinput-msg" />
+									</h:inputText>
+									<p:message id="emailinput-msg" for="emailinput" display="text" />
+
+									<h:outputLabel for="telinput" value="Mobile Number:* (+91)"></h:outputLabel>
+									<p:inputText styleClass="form-control noShdow"
+										value="#{registerBean.user.contactNo}" maxlength="12"
+										required="true" requiredMessage="Please Enter Phone Number"
+										id="telinput" label="Phone Number: "
+										validatorMessage="Invalid Mobile Number ">
+										<p:ajax event="blur" update="telinput-msg" />
+										<f:validator validatorId="contactNoValidation"></f:validator>
+									</p:inputText>
+									<p:message id="telinput-msg" for="telinput" display="text" />
+
+									<h:outputLabel for="food" value="Food Prefrence:*"></h:outputLabel>
+									<h:selectOneMenu id="food"
+										value="#{registerBean.user.foodChoice}"
+										styleClass="form-control" required="true"
+										requiredMessage="Please Select Food Prefrence">
+										<f:selectItem itemLabel="Select" itemValue=""
+											noSelectionOption="true" />
+										<f:selectItems value="#{registerBean.dropdownData.foodList}" />
+										<p:ajax event="blur" update="food-msg" />
+									</h:selectOneMenu>
+									<p:message id="food-msg" for="food" display="text" />
+								</h:panelGrid>
+							</p:tab>
+
+							<hr></hr>
+							<p:tab title="Passport Details:-"
+								titleStyle="font-weight:bold;font-size:20px">
+
+								<h:panelGrid columns="3" cellpadding="5">
+									<h:outputLabel for="passportno" styleClass="shiftRightPassport"
+										value="Passport No:"></h:outputLabel>
+									<p:inputText styleClass="form-control noShdow"
+										value="#{registerBean.user.passportNo}" maxlength="20"
+										id="passportno" label="passport Number: ">
+										<p:ajax event="blur" update="passportno-msg" />
+										<f:validator validatorId="aplphaNumericValidator"></f:validator>
+									</p:inputText>
+									<p:message id="passportno-msg" for="passportno" display="text" />
+
+
+
+									<h:outputLabel for="issuedate" escape="false"
+										value="Passport Issue Date(dd/mm/yyyy):"></h:outputLabel>
+									<p:calendar id="issuedate"
+										value="#{registerBean.user.issueDate}" navigator="true"
+										pattern="dd/MM/yyyy" converterMessage="Invalid Date OR Format"
+										binding="#{registerBean.uicomp.passIssueUI}"
+										onblur="globalScope(this.id,'form:panel:expirydate-msg','PIdate')"
+										yearRange="c-100:c+50" styleClass="calendar-input">
+										<f:convertDateTime pattern="dd/MM/yyyy" type="both" />
+										<p:ajax event="dateSelect"
+											oncomplete="globalScope('form:panel:issuedate_input','form:panel:issuedate-msg','PIdate')" />
+									</p:calendar>
+									<p:message display="text" severity="info,error, fatal"
+										id="issuedate-msg" for="issuedate" />
+
+
+
+									<h:outputLabel for="expirydate"
+										value="Passport Expiry Date(dd/mm/yyyy):"></h:outputLabel>
+									<p:calendar id="expirydate"
+										value="#{registerBean.user.expiryDate}"
+										binding="#{registerBean.uicomp.passExpireUI}" locale="en"
+										navigator="true" yearRange="c-100:c+50" pattern="dd/MM/yyyy"
+										onblur="globalScope(this.id,'form:panel:expirydate-msg','PEdate')"
+										converterMessage="Invalid Date OR Format"
+										styleClass="calendar-input">
+										<f:convertDateTime pattern="dd/MM/yyyy" type="both" />
+										<p:ajax event="dateSelect"
+											oncomplete="globalScope('form:panel:expirydate_input','form:panel:expirydate-msg','PEdate')" />
+									</p:calendar>
+									<p:message display="text" severity="info,error, fatal"
+										id="expirydate-msg" for="expirydate" />
+
+
+									<h:outputLabel for="placeOfIssue" value="Place Of Issue:"></h:outputLabel>
+									<p:inputText styleClass="form-control noShdow" maxlength="20"
+										value="#{registerBean.user.placeOfIssue}" id="placeOfIssue">
+										<f:validator validatorId="nameValidator"></f:validator>
+										<p:ajax event="blur" update="placeOfIssue-msg" />
+									</p:inputText>
+									<p:message id="placeOfIssue-msg" for="placeOfIssue"
+										display="text" />
+								</h:panelGrid>
+
+								<h:panelGrid columns="3" cellpadding="5">
+									<h:outputLabel for="passportFile"
+										styleClass="shiftRightPassportPdf"
+										value="Upload Passport Copy:" />
+									<p:fileUpload id="passportFile" value="#{registerBean.pass}"
+										binding="#{registerBean.uicomp.passportFileUI}"
+										allowTypes="/(\.|\/)(jpeg|pdf|png|jpg)$/"
+										styleClass=".ui-fileupload-choose"
+										fileUploadListener="#{registerBean.uploadPassportPdf}"
+										skinSimple="true" update="passportFile-msg"
+										description="passport" multiple="true" />
+									<p:message display="text" severity="info, fatal"
+										showSummary="true" id="passportFile-msg" for="passportFile" />
+								</h:panelGrid>
+							</p:tab>
+
+							<hr></hr>
+
+							<p:tab title="VISA Details(You can add multiple visas):-"
+								titleStyle="font-weight:bold;font-size:20px">
+
+
+								<h:panelGrid columns="3" cellpadding="5">
+									<h:outputLabel for="country" value="Country:"
+										styleClass="shiftRightVisa"></h:outputLabel>
+									<h:selectOneMenu id="country"
+										value="#{registerBean.uservisa.country}"
+										styleClass="form-control">
+										<f:selectItem itemLabel="Select Country" itemValue=""
+											noSelectionOption="true" />
+										<f:selectItems
+											value="#{registerBean.dropdownData.countryList}" />
+										<p:ajax event="blur" update="country-msg" />
+									</h:selectOneMenu>
+									<p:message display="text" styleClass="spaceMsg"
+										id="country-msg" for="country" />
+
+									<h:outputLabel for="visaissue" value="Visa Issue Date:"></h:outputLabel>
+									<p:calendar id="visaissue"
+										binding="#{registerBean.uicomp.visaIssueUI}"
+										value="#{registerBean.uservisa.issueDate}" locale="en"
+										converterMessage="Invalid Date OR Format" navigator="true"
+										yearRange="c-100:c+50"
+										onblur="globalScope(this.id,'form:panel:visaissue-msg','Idate')"
+										pattern="dd/MM/yyyy" styleClass="calendar-input">
+										<f:convertDateTime pattern="dd/MM/yyyy" type="both" />
+										<p:ajax event="dateSelect"
+											oncomplete="globalScope('form:panel:visaissue_input','form:panel:visaissue-msg','Idate')" />
+									</p:calendar>
+									<p:message display="text" severity="info,error,fatal"
+										id="visaissue-msg" for="visaissue" />
+
+									<h:outputLabel for="visaexpiry" value="Visa Expiry Date:"></h:outputLabel>
+									<p:calendar id="visaexpiry"
+										converterMessage="Invalid Date OR Format"
+										binding="#{registerBean.uicomp.visaExpireUI}"
+										value="#{registerBean.uservisa.expiryDate}"
+										yearRange="c-100:c+50" locale="en" navigator="true"
+										pattern="dd/MM/yyyy"
+										onblur="globalScope(this.id,'form:panel:visaexpiry-msg','Edate')"
+										styleClass="calendar-input">
+										<f:convertDateTime pattern="dd/MM/yyyy" type="both" />
+										<p:ajax event="dateSelect"
+											oncomplete="globalScope('form:panel:visaexpiry_input','form:panel:visaexpiry-msg','Edate')" />
+									</p:calendar>
+									<p:message display="text" severity="info,error,fatal"
+										id="visaexpiry-msg" for="visaexpiry" />
+									<center>
+										<!-- <h:panelGroup layout="block" styleClass="row form-group"> -->
+										<h:commandLink id="visa-submition"
+											binding="#{registerBean.uicomp.visaStatus}"
+											onclick="return visaCheck()" value="Add"
+											styleClass="btn btn-success">
+											<p:ajax event="click" listener="#{registerBean.addVisa()}"
+												update="visa-submition-msg country" />
+										</h:commandLink>
+										<p:message display="text" id="visa-submition-msg"
+											severity="info, error, fatal" for="visa-submition" />
+									</center>
+								</h:panelGrid>
+							</p:tab>
+							<hr></hr>
+
+							<p:tab title="Nominee Details:-"
+								titleStyle="font-weight:bold;font-size:20px">
+
+
+								<h:panelGrid columns="3" cellpadding="5">
+
+
+									<h:outputLabel styleClass="shiftRightNominee" for="nom1"
+										value="Nominee Name:"></h:outputLabel>
+									<p:inputText styleClass="form-control noShdow"
+										value="#{registerBean.user.firstNomineeName}" id="nom1"
+										label="First Nominee ">
+										<f:validator validatorId="nameValidator"></f:validator>
+										<p:ajax event="blur" update="nom1-msg" />
+									</p:inputText>
+									<p:message id="nom1-msg" display="text" for="nom1" />
+
+									<h:outputLabel for="telnom1" value="Mobile Number:"></h:outputLabel>
+									<p:inputText styleClass="form-control noShdow"
+										value="#{registerBean.user.firstNomineeContact}" id="telnom1"
+										label="Phone Number: ">
+										<p:ajax event="blur" update="telnom1-msg" />
+										<f:validator validatorId="contactNoValidation"></f:validator>
+									</p:inputText>
+									<p:message id="telnom1-msg" display="text" for="telnom1" />
+
+									<h:outputLabel for="relation" value="Relation:"></h:outputLabel>
+									<p:inputText styleClass="form-control noShdow"
+										value="#{registerBean.user.firstNomineeRelation}"
+										id="relation" label="Relation: ">
+										<p:ajax event="blur" update="relation-msg" />
+										<f:validator validatorId="nameWithHyphenValidator"></f:validator>
+									</p:inputText>
+									<p:message id="relation-msg" display="text" for="relation" />
+
+								</h:panelGrid>
+							</p:tab>
+
+							<hr></hr>
+							<p:tab title="Password Details:-"
+								titleStyle="font-weight:bold;font-size:20px">
+								<h:panelGroup layout="block">
+									<h:panelGrid columns="3" cellpadding="5">
+										<h:outputLabel styleClass="shiftRightPassword" for="pwd1"
+											value="Password:*"></h:outputLabel>
+										<p:password id="pwd1" value="#{registerBean.login.password}"
+											match="pwd2" label="Password 1" required="true"
+											maxlength="30" requiredMessage="Please Enter Password"
+											feedback="true" styleClass="form-control noShdow">
+											<p:ajax event="blur"></p:ajax>
+										</p:password>
+										<p:message id="pwd1-msg" for="pwd1" display="text" />
+
+										<h:outputLabel for="pwd2" value="Confirm Password:*"></h:outputLabel>
+										<p:password id="pwd2" label="Password 2" required="true"
+											maxlength="30" requiredMessage="Please Confirm Password"
+											styleClass="form-control noShdow">
+											<p:ajax event="blur"></p:ajax>
+										</p:password>
+										<p:message id="pwd2-msg" display="text" for="pwd2" />
+									</h:panelGrid>
+								</h:panelGroup>
+							</p:tab>
+						</p:accordionPanel>
+					</h:panelGroup>
+				</h:panelGroup>
+			</h:panelGroup>
+
+			<h:panelGroup layout="block" styleClass="row">
+				<h:panelGroup layout="block" styleClass="col-xs-8 centerAll">
+					<h:panelGroup layout="block" styleClass="form-check">
+						<p:outputLabel styleClass="form-check-p:outputLabel text-danger">
+							<h:selectBooleanCheckbox id="checkboxId"
+								styleClass="form-check-input" value="#{registerBean.validInfo}">
+								<p:ajax event="change" update="submitbtn" process="checkboxId"></p:ajax>
+
+							</h:selectBooleanCheckbox>
+							I confirm that all the information furnished above is true to the best of my Knowledge.
+						</p:outputLabel>
+					</h:panelGroup>
+				</h:panelGroup>
+				<h:panelGroup layout="block" styleClass="col-xs-4 centerAll">
+					<h:panelGroup layout="block" styleClass="row">
+						<h:panelGroup layout="block" styleClass="col-xs-3">
+							<h:panelGrid columns="2">
+								<h:commandButton value="Submit" id="submitbtn"
+									disabled="#{not registerBean.validInfo}"
+									action="#{registerBean.submitRegAction}"
+									styleClass="btn btn-success" update="gridy"
+									onclick="return globalScope(this.id,'form:growl','globalCheckValidation')"
+									validateClient="true" ajax="false" />
+							</h:panelGrid>
+							<p:blockUI trigger="submitbtn" />
+						</h:panelGroup>
+						<h:panelGroup layout="block" styleClass="col-xs-3">
+							<h:button type="reset" value="Reset" styleClass="btn btn-danger">
+							</h:button>
+
+						</h:panelGroup>
+						<h:panelGroup layout="block" styleClass="col-xs-3">
+							<h:commandButton immediate="true" value="Cancel"
+								action="#{registerBean.moveToLogin}" styleClass="btn" />
+						</h:panelGroup>
+					</h:panelGroup>
+				</h:panelGroup>
+			</h:panelGroup>
+		</h:panelGroup>
+	</h:form>
+	<div class="navbar-fixed-bottom">
+		<div class="row">
+			<div class="col-xs-12">
+				<div class="footer">Copyright @ Diebold Nixdorf 2017</div>
+			</div>
+		</div>
+	</div>
+
+
+</h:body>
+
+</html>
